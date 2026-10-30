@@ -9,6 +9,9 @@
     <li>{% translate "A obra entra como rascunho, no seu pseudônimo padrão. Você revisa tudo antes de publicar." %}</li>
   </ol>
   <p class="muted">{% blocktranslate %}Até {{ max_mb }} MB. PDFs escaneados (foto das páginas) não têm texto e não podem ser importados. Itálico e negrito do PDF podem se perder.{% endblocktranslate %}</p>
+  {% if direct_url %}
+    <p class="notice import-timeout">{% blocktranslate with url=direct_url|add:request.path %}<strong>PDF grande?</strong> Obras longas, com muitos capítulos, podem passar do tempo limite deste endereço provisório e dar erro. Se acontecer, importe pelo endereço direto: <a href="{{ url }}">{{ url }}</a> (lá é preciso entrar na conta de novo).{% endblocktranslate %}</p>
+  {% endif %}
   <form method="post" enctype="multipart/form-data" class="stacked-form">
     {% csrf_token %}
     {{ form.as_div }}

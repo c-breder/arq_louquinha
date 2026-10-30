@@ -26,6 +26,12 @@ class SiteSettings(models.Model):
         blank=True,
         help_text=_("Um e-mail por linha (ou separados por vírgula)."),
     )
+    direct_url = models.URLField(
+        _("endereço direto do site"),
+        blank=True,
+        help_text=_("Endereço sem intermediário (ex.: o .ts.net). A tela de importar PDF sugere usá-lo para arquivos "
+                    "grandes, que podem passar do tempo limite do endereço provisório. Deixe em branco para esconder o aviso."),
+    )
     updated_at = models.DateTimeField(_("atualizado em"), auto_now=True)
 
     class Meta:

@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
+from core.models import SiteSettings
 from interactions.services import can_interact
 
 from .importer import ImportProblem, parse_pdf
@@ -56,7 +57,12 @@ def import_work(request):
                 for problem in problems:
                     messages.warning(request, problem)
                 return redirect("works:import_result", work_id=work.pk)
-    return render(request, "works/import_form.html", {"form": form, "max_mb": settings.MAX_IMPORT_MB})
+    direct_url = SiteSettings.current().direct_url.rstrip("/")
+    return render(
+        request,
+        "works/import_form.html",
+        {"form": form, "max_mb": settings.MAX_IMPORT_MB, "direct_url": direct_url},
+    )
 
 
 @login_required

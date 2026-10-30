@@ -124,6 +124,7 @@ Na imagem de produção, a compilação acontece sozinha no build.
     - No histórico de moderação, essas aprovações aparecem com a nota "janela de cadastro aberto".
     - Um e-mail pré-aprovado tem prioridade sobre a janela, então vale o nível de mídia escolhido para ele.
   - **"Avisar destes e-mails a cada conta criada":** um e-mail por linha. A cada cadastro, quem estiver na lista recebe usuário, e-mail, data, situação e o link para a conta no admin. Os e-mails ficam só no banco, nunca no código.
+  - **"Endereço direto do site":** quando preenchido (hoje, o `.ts.net`), a tela de **importar PDF** mostra um aviso: PDFs grandes podem passar do tempo limite do endereço provisório (Netlify), e o aviso dá o link direto para importar por lá. Apague o campo quando o site tiver domínio próprio, e o aviso some.
   - A janela e os avisos dependem de o site **enviar e-mails de verdade**. Sem provedor de e-mail configurado (`EMAIL_*` no `.env.prod`), os e-mails só aparecem no log, e a confirmação precisa ser feita pelo comando `verify_email`, que também respeita a janela e a pré-aprovação.
 - `SIGNUP_OPEN=0` no `.env` fecha o cadastro.
 - Segurança: senhas com Argon2, verificação em duas etapas opcional (TOTP) e bloqueio temporário após logins falhos (5 tentativas a cada 5 minutos por conta). O login com Google se ativa ao preencher `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET`.
@@ -372,7 +373,7 @@ A pasta `deploy/netlify/` tem o arquivo `_redirects`, que repassa todas as visit
    ```
 5. Aplique: `./scripts/prod.sh up -d --force-recreate web worker`.
 
-Limites: a Netlify também vê o tráfego (como a Cloudflare veria depois); o plano grátis tem cota mensal de tráfego, de sobra para testes; pedidos que demoram mais de ~25 segundos são cortados, então importar um PDF muito grande pode falhar (use o `.ts.net` nesse caso); links em e-mails continuam com o `.ts.net`. Para desligar, apague o site na Netlify.
+Limites: a Netlify também vê o tráfego (como a Cloudflare veria depois); o plano grátis tem cota mensal de tráfego, de sobra para testes; pedidos que demoram mais de ~25 segundos são cortados, então importar um PDF muito grande pode falhar (use o `.ts.net` nesse caso; a tela de importar avisa isso quando o "Endereço direto do site" está preenchido nas Configurações do site); links em e-mails continuam com o `.ts.net`. Para desligar, apague o site na Netlify.
 
 ## Domínio próprio (próximo passo)
 

@@ -205,3 +205,16 @@ def test_only_author_sees_import_result(client, make_user):
     work = Work.objects.get()
     client.force_login(make_user("outra"))
     assert client.get(reverse("works:import_result", args=[work.pk])).status_code == 403
+
+
+@pytest.mark.django_db
+def test_import_page_suggests_direct_address_only_when_set(client, make_user):
+    from core.models import SiteSettings
+
+    client.force_login(make_user("autora"))
+    assert "PDF grande?" not in client.get(reverse("works:import")).content.decode()
+    site = SiteSettings.current()
+    site.direct_url = "https://direto.example.net/"
+    site.save()
+    page = client.get(reverse("works:import")).content.decode()
+    assert "PDF grande?" in page and f'href="https://direto.example.net{reverse("works:import")}"' in page
