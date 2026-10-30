@@ -82,7 +82,8 @@ def test_admin_pages_load(admin_client, admin_user, rf):
     request.user = admin_user
     for model, model_admin in admin.site._registry.items():
         info = (model._meta.app_label, model._meta.model_name)
-        assert admin_client.get(reverse("admin:%s_%s_changelist" % info)).status_code == 200, info
+        # follow: Configurações do site redireciona da lista para o registro único
+        assert admin_client.get(reverse("admin:%s_%s_changelist" % info), follow=True).status_code == 200, info
         if model_admin.has_add_permission(request):
             assert admin_client.get(reverse("admin:%s_%s_add" % info)).status_code == 200, info
 

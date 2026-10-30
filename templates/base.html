@@ -110,6 +110,9 @@
     <div class="sidebar-backdrop" hidden></div>
 
     <main id="main" class="content">
+      {% if request.resolver_match.url_name == "account_signup" %}{% with until=SIGNUP_WINDOW_UNTIL %}{% if until %}
+        <p class="notice signup-window">{% blocktranslate with when=until|date:"DATETIME_FORMAT" %}Cadastros abertos até {{ when }}: confirme o seu e-mail e a sua conta já entra aprovada.{% endblocktranslate %}</p>
+      {% endif %}{% endwith %}{% endif %}
       {% if messages %}
         <ul class="messages" role="status">
           {% for message in messages %}

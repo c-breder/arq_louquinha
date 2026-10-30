@@ -7,7 +7,7 @@ from moderation.services import log_action
 from .tasks import send_approval_email
 
 
-def approve_user(user, by):
+def approve_user(user, by, note=""):
     if user.is_approved:
         return False
     user.is_approved = True
@@ -15,7 +15,7 @@ def approve_user(user, by):
     user.approved_at = timezone.now()
     user.approved_by = by
     user.save(update_fields=["is_approved", "is_active", "approved_at", "approved_by"])
-    log_action(by, ModerationAction.Action.APPROVE_ACCOUNT, user)
+    log_action(by, ModerationAction.Action.APPROVE_ACCOUNT, user, note=note)
     transaction.on_commit(lambda: send_approval_email.delay(user.pk))
     return True
 
@@ -37,6 +37,18 @@ def apply_pre_approval(user, email):
         entry.used_at = timezone.now()
         entry.save(update_fields=["used_by", "used_at"])
     return True
+
+
+def approve_on_email_confirmation(user, email):
+    """Ao confirmar o e-mail: pré-aprovação tem prioridade; senão, vale a janela de cadastro aberto."""
+    from core.models import SiteSettings
+
+    if apply_pre_approval(user, email):
+        return "pre_approved"
+    if not user.is_approved and SiteSettings.current().signup_window_open:
+        approve_user(user, None, note="janela de cadastro aberto")
+        return "signup_window"
+    return None
 
 
 def reject_user(user, by, note=""):

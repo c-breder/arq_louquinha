@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: arq_louquinha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 11:09-0300\n"
+"POT-Creation-Date: 2026-10-30 11:16-0300\n"
 "PO-Revision-Date: 2026-10-29 23:45-0300\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -350,6 +350,31 @@ msgstr "Work removed from the collection."
 msgid "Arquivo de imagem inválido."
 msgstr "Invalid image file."
 
+msgid "aprovar novas contas automaticamente até"
+msgstr "automatically approve new accounts until"
+
+msgid ""
+"Enquanto essa data não passar, quem criar conta e confirmar o e-mail já "
+"entra aprovado. Deixe em branco para fechar."
+msgstr ""
+"Until this date, anyone who signs up and confirms their email is approved "
+"right away. Leave blank to close."
+
+msgid "avisar destes e-mails a cada conta criada"
+msgstr "notify these emails on every new account"
+
+msgid "Um e-mail por linha (ou separados por vírgula)."
+msgstr "One email per line (or comma-separated)."
+
+msgid "atualizado em"
+msgstr "updated at"
+
+msgid "configurações do site"
+msgstr "site settings"
+
+msgid "Configurações do site"
+msgstr "Site settings"
+
 msgid "Ocultar comentários (moderação)"
 msgstr "Hide comments (moderation)"
 
@@ -427,9 +452,6 @@ msgstr "private"
 
 msgid "recomendação"
 msgstr "rec"
-
-msgid "atualizado em"
-msgstr "updated at"
 
 msgid "bookmark"
 msgstr "bookmark"
@@ -1047,6 +1069,14 @@ msgstr "Terms of Use"
 
 msgid "Contato"
 msgstr "Contact"
+
+#, python-format
+msgid ""
+"Cadastros abertos até %(when)s: confirme o seu e-mail e a sua conta já entra"
+" aprovada."
+msgstr ""
+"Sign-ups are open until %(when)s: confirm your email and your account is "
+"approved right away."
 
 msgid "Rodapé"
 msgstr "Footer"

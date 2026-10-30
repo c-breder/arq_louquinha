@@ -17,14 +17,14 @@ class Command(BaseCommand):
         EmailAddress.objects.update_or_create(
             user=user, email=user.email, defaults={"verified": True, "primary": True}
         )
-        from accounts.services import apply_pre_approval, approve_user
+        from accounts.services import approve_on_email_confirmation, approve_user
 
-        # Mesma regra do link de confirmação: e-mail pré-aprovado aprova a conta
-        pre_approved = apply_pre_approval(user, user.email)
+        # Mesma regra do link de confirmação: e-mail pré-aprovado ou janela de cadastro aberto
+        reason = approve_on_email_confirmation(user, user.email)
         if options["approve"] and not user.is_approved:
             approve_user(user, by=None)
-        approved = pre_approved or options["approve"]
+        approved = reason or options["approve"]
+        detail = {"pre_approved": " (estava pré-aprovado)", "signup_window": " (janela de cadastro aberto)"}
         self.stdout.write(self.style.SUCCESS(
-            f"E-mail de {user.username} confirmado{' e conta aprovada' if approved else ''}"
-            f"{' (estava pré-aprovado)' if pre_approved else ''}."
+            f"E-mail de {user.username} confirmado{' e conta aprovada' if approved else ''}{detail.get(reason, '')}."
         ))

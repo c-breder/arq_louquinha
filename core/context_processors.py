@@ -6,6 +6,14 @@ def site(request):
         "SITE_NAME": settings.SITE_NAME,
         "AVAILABLE_LANGUAGES": settings.LANGUAGES,
     }
+    # Função: só consulta o banco se o template usar (página de cadastro)
+    def signup_window():
+        from .models import SiteSettings
+
+        current = SiteSettings.current()
+        return current.open_signup_until if current.signup_window_open else None
+
+    context["SIGNUP_WINDOW_UNTIL"] = signup_window
     user = getattr(request, "user", None)
     if user is not None and user.is_authenticated:
         from messaging.models import Conversation
