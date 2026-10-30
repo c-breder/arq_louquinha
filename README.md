@@ -234,6 +234,119 @@ O detalhe técnico fica na página <http://localhost:8080/status/>, visível só
 - O Docker Desktop precisa abrir com o Windows: em **Settings → General**, marque "Start Docker Desktop when you sign in".
 - O ajuste de reinícios do Windows Update e de energia fica no `docs/SERVIDOR.md`, que será escrito na migração para a máquina dedicada.
 
+## Publicar na internet — protótipo neste PC (Tailscale Funnel)
+
+É assim que o site está no ar agora, de graça, enquanto não existe o servidor próprio. O **Tailscale Funnel** cria um endereço HTTPS público (`https://<nome-do-pc>.<sua-rede>.ts.net`) que leva até o Caddy deste PC. Ele **não abre portas no roteador** e **não mostra o IP da sua casa**. O PC precisa ficar ligado e acordado, ou o site sai do ar.
+
+Rode os comandos no **Git Bash**, na pasta do projeto. Os que pedem digitação (senha) vão no **PowerShell**.
+
+### 1. Instalar a produção
+
+```sh
+./scripts/init-env-prod.sh      # cria o .env.prod com senhas aleatórias (só na primeira vez)
+./scripts/deploy.sh             # monta as imagens, migrations e sobe tudo em http://localhost:8080
+```
+
+### 2. Criar a sua conta de admin
+
+No **PowerShell**:
+```powershell
+cd C:\Users\cbreder\arq_louquinha
+docker compose -p arq_prod --env-file .env.prod --profile prod exec web python manage.py createsuperuser
+```
+Use uma senha **forte** e **não** aceite o "Bypass password validation". Depois, confirme o e-mail da conta. Enquanto o site não envia e-mails de verdade, isso é feito pelo terminal:
+```sh
+./scripts/prod.sh exec web python manage.py verify_email SEU_USUARIO
+```
+
+### 3. Descobrir o endereço do PC no Tailscale
+
+```powershell
+tailscale status --json | Select-String DNSName
+```
+O endereço é algo como `desktop-saqgca0.tail463929.ts.net`. Ignore o ponto final.
+
+### 4. Ajustar o `.env.prod`
+
+Abra o `.env.prod` num editor e deixe estas linhas assim, trocando pelo seu endereço:
+```ini
+SITE_NAME=Arquivo Louquinha
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,desktop-saqgca0.tail463929.ts.net
+DJANGO_CSRF_TRUSTED_ORIGINS=https://desktop-saqgca0.tail463929.ts.net
+SESSION_COOKIE_SECURE=1
+```
+Depois, aplique:
+```sh
+./scripts/prod.sh up -d --force-recreate web worker
+```
+
+### 5. Ligar o HTTPS no painel do Tailscale (uma vez só)
+
+1. Abra <https://login.tailscale.com/admin/dns>.
+2. Em **HTTPS Certificates**, clique em **Enable HTTPS**.
+
+### 6. Ligar o Funnel
+
+No **PowerShell**:
+```powershell
+tailscale funnel --bg http://127.0.0.1:8080
+```
+- **Na primeira vez**, ele responde "Funnel is not enabled on your tailnet" com um link. Abra o link, autorize o Funnel e rode o comando de novo.
+- **Se der certo**, aparece "Available on the internet: https://...ts.net/". O `--bg` mantém o Funnel ligado mesmo depois de reiniciar o PC.
+- **Para desligar:** `tailscale funnel --https=443 off`.
+- **Para ver o estado:** `tailscale funnel status`.
+
+### 7. Deixar uma amiga testar como autora
+
+1. Ela cria a conta pelo endereço `.ts.net`, em "Criar conta".
+2. Você confirma o e-mail e aprova a conta de uma vez:
+   ```sh
+   ./scripts/prod.sh exec web python manage.py verify_email NOME_DELA --approve
+   ```
+3. Para ela poder pôr imagens no texto: no admin, abra **Usuários**, selecione a conta e use a ação **Nível de mídia: Imagens**.
+
+### 8. Obras de teste
+
+O site começa vazio. Para ter algo na página inicial, crie obras simples ("Teste 1" a "Teste 6") na sua conta. O comando não duplica se for rodado de novo:
+```sh
+./scripts/prod.sh exec web python manage.py create_test_works --user SEU_USUARIO
+```
+Para apagar, use **Minhas obras → Editar → Excluir obra**.
+
+No **desenvolvimento**, para trocar as milhares de obras falsas do `seed` por essas obras de teste:
+```sh
+docker compose --profile dev exec web-dev python manage.py seed --clear-only
+docker compose --profile dev exec web-dev python manage.py create_test_works --user NOME_DA_CONTA
+```
+O `seed --clear-only` apaga **só** o que o seed criou: contas `@seed.invalid`, as obras e séries delas e as tags sem uso.
+
+### 9. Atualizar o site público depois de mudanças no código
+
+```sh
+./scripts/deploy.sh             # com backup antes (recomendado)
+# ou, sem backup:
+./scripts/prod.sh build && ./scripts/prod.sh up -d
+```
+
+## Domínio próprio (próximo passo)
+
+Com um domínio, o site troca o `.ts.net` pelo seu endereço e passa a usar o **Cloudflare Tunnel** (veja [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md)). Essa é a mesma configuração do servidor próprio, então o link não muda na migração. O túnel exige que o DNS do domínio fique na Cloudflare.
+
+| Opção | Custo | Observação |
+|---|---|---|
+| **`.eu.org`** (ex.: `arquivolouquinha.eu.org`) | Grátis | Associação sem fins lucrativos, estável desde 1996. Aceita DNS da Cloudflare. A aprovação é manual e leva **dias ou semanas** |
+| DigitalPlat (`.dpdns.org`, `.qzz.io`) | Grátis | Aprovação rápida, mas reputação incerta |
+| `.com.br` no Registro.br | ~R$ 40/ano | Oficial do Brasil; depois, troque o DNS para a Cloudflare |
+| `.com` na Cloudflare | ~US$ 10/ano | O mais simples: já nasce com o DNS na Cloudflare |
+
+Os preços são aproximados; confira na hora. Evite os antigos domínios "grátis" (`.tk`, `.ml`), que foram descontinuados. Evite também o DuckDNS: ele exigiria abrir portas e expor o IP da sua casa.
+
+**Passo a passo do `.eu.org`:**
+1. Crie uma conta grátis na Cloudflare e, no painel, clique em **Add a domain**, informando `arquivolouquinha.eu.org`. Anote os **dois nameservers** que a Cloudflare mostrar (algo como `xxx.ns.cloudflare.com`).
+2. Crie uma conta em <https://nic.eu.org> (em inglês) e peça o domínio em **New domain**. No campo de servidores de nome, informe os dois da Cloudflare.
+3. Espere o e-mail de aprovação. Pode levar semanas; enquanto isso, o site continua no `.ts.net`.
+4. Com o domínio aprovado e ativo na Cloudflare, siga o [docs/CLOUDFLARE.md](docs/CLOUDFLARE.md) para criar o túnel. Depois, desligue o Funnel com `tailscale funnel --https=443 off`.
+
 ## Desempenho (Fase 7, medido neste PC em 2026-10-30)
 
 **Como foi medido:** produção completa (Caddy, Gunicorn, Postgres, Redis e worker) com as 3.000 obras do seed. Os visitantes simultâneos tinham IPs diferentes, como se viessem pela Cloudflare, e misturavam página inicial, buscas com filtros, páginas de tag, leitura de capítulos e kudos, com ~1 s de pausa entre cliques.

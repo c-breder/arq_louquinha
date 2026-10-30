@@ -104,6 +104,9 @@ class Command(BaseCommand):
         parser.add_argument("--seed", type=int, default=42, help="semente aleatória (mesmo número = mesmos dados)")
         parser.add_argument("--clear", action="store_true", help="apaga os dados do seed anterior antes")
         parser.add_argument("--force", action="store_true", help="permite rodar com DEBUG desligado")
+        parser.add_argument(
+            "--clear-only", action="store_true", help="só apaga os dados do seed anterior, sem criar novos"
+        )
 
     def handle(self, *args, **opts):
         if not settings.DEBUG and not opts["force"]:
@@ -116,6 +119,13 @@ class Command(BaseCommand):
         self.fake = Faker(["pt_BR", "en_US"])
         self.now = timezone.now()
         start = time.monotonic()
+
+        if opts["clear_only"]:
+            with transaction.atomic():
+                self.clear()
+            rebuild_all()
+            self.stdout.write(self.style.SUCCESS("Dados do seed apagados."))
+            return
 
         with transaction.atomic():
             if opts["clear"]:

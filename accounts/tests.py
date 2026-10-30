@@ -117,6 +117,20 @@ def test_reject_does_not_deactivate_self(admin_client, admin_user):
     assert admin_user.is_active is True
 
 
+def test_verify_email_command(make_user, django_capture_on_commit_callbacks):
+    from io import StringIO
+
+    from allauth.account.models import EmailAddress
+    from django.core.management import call_command
+
+    friend = make_user("amiga", approved=False)
+    with django_capture_on_commit_callbacks(execute=True):
+        call_command("verify_email", "amiga", "--approve", stdout=StringIO())
+    friend.refresh_from_db()
+    assert friend.is_approved
+    assert EmailAddress.objects.get(user=friend).verified
+
+
 def test_preferences_save_language_and_cookie(client, make_user, settings):
     user = make_user()
     client.force_login(user)

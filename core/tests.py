@@ -108,6 +108,17 @@ def test_seed_clear_removes_previous_run():
     assert Work.objects.count() == 4
 
 
+def test_seed_clear_only_and_test_works(make_user):
+    call_command("seed", users=3, fandoms=1, freeforms=5, works=4, force=True, stdout=StringIO())
+    real = make_user("dona")
+    call_command("seed", clear_only=True, force=True, stdout=StringIO())
+    assert not User.objects.filter(email__endswith="@seed.invalid").exists()
+    assert Work.objects.count() == 0 and User.objects.filter(pk=real.pk).exists()
+    call_command("create_test_works", user="dona", stdout=StringIO())
+    call_command("create_test_works", user="dona", stdout=StringIO())  # não duplica
+    assert list(Work.objects.order_by("title").values_list("title", flat=True)) == [f"Teste {n}" for n in range(1, 7)]
+
+
 def test_seed_refuses_without_debug():
     from django.core.management.base import CommandError
 
