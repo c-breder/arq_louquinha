@@ -1,0 +1,31 @@
+{% load i18n works_extras cache %}
+{# Card pronto no Redis; a chave muda sempre que a listagem da obra é atualizada #}
+{% cache 86400 work_card listing.work_id listing.refreshed_at.timestamp LANGUAGE_CODE %}
+{% with card=listing.card %}
+<article class="work-card">
+  <h3><a href="{% url 'works:detail' listing.work_id %}">{{ listing.title }}</a></h3>
+  <p class="byline">
+    {% for author in card.authors %}<a href="{% url 'works:user_profile' author.username %}">{{ author.name }}</a>{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}
+  </p>
+  <p class="card-fandoms">{% for tag in card.tags|get_item:"fandom" %}<a href="{% url 'tags:detail' tag.0 %}">{{ tag.1 }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <ul class="tag-list card-tags">
+    <li class="rating">{{ listing.rating|rating_label }}</li>
+    {% for label in listing.warnings|warning_labels %}<li class="warning">{{ label }}</li>{% endfor %}
+    {% for tag in card.tags|get_item:"relationship" %}<li><a href="{% url 'tags:detail' tag.0 %}">{{ tag.1 }}</a></li>{% endfor %}
+    {% for tag in card.tags|get_item:"character" %}<li><a href="{% url 'tags:detail' tag.0 %}">{{ tag.1 }}</a></li>{% endfor %}
+    {% for tag in card.tags|get_item:"freeform" %}<li><a href="{% url 'tags:detail' tag.0 %}">{{ tag.1 }}</a></li>{% endfor %}
+  </ul>
+  {% if card.summary %}<div class="summary">{{ card.summary|clean }}</div>{% endif %}
+  <dl class="card-stats">
+    <dt>{% translate "Idioma" %}</dt><dd>{{ listing.language|language_label }}</dd>
+    <dt>{% translate "Palavras" %}</dt><dd>{{ listing.word_count }}</dd>
+    <dt>{% translate "Capítulos" %}</dt><dd>{{ listing.chapter_count }}/{{ listing.expected_chapters|default:"?" }}</dd>
+    <dt>{% translate "Kudos" %}</dt><dd>{{ listing.kudos_count }}</dd>
+    <dt>{% translate "Acessos" %}</dt><dd>{{ listing.hit_count }}</dd>
+    <dt>{% translate "Bookmarks" %}</dt><dd>{{ listing.bookmark_count }}</dd>
+    <dt>{% translate "Comentários" %}</dt><dd>{{ listing.comment_count }}</dd>
+    <dt>{% translate "Atualizada" %}</dt><dd>{{ listing.revised_at|date:"SHORT_DATE_FORMAT" }}</dd>
+  </dl>
+</article>
+{% endwith %}
+{% endcache %}

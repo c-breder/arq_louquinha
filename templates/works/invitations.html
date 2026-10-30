@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Convites de coautoria" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Convites de coautoria" %}</h1>
+  {% for invitation in invitations %}
+    <div class="invitation">
+      <p>{% blocktranslate with inviter=invitation.invited_by.username title=invitation.work.title %}{{ inviter }} convidou você para ser coautor(a) de “{{ title }}”.{% endblocktranslate %}</p>
+      <form method="post" action="{% url 'works:respond_invitation' invitation.pk %}" class="inline-form">
+        {% csrf_token %}
+        <button type="submit" name="decision" value="accept" class="primary">{% translate "Aceitar" %}</button>
+        <button type="submit" name="decision" value="decline">{% translate "Recusar" %}</button>
+      </form>
+    </div>
+  {% empty %}
+    <p>{% translate "Nenhum convite pendente." %}</p>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{{ work.title }}{% endblock %}
+{% block main %}
+  {% if work.status != "published" %}
+    <p class="notice">
+      {% if work.status == "scheduled" %}
+        {% blocktranslate with when=work.scheduled_for|date:"DATETIME_FORMAT" %}Esta obra está agendada para {{ when }}. Só os autores podem vê-la.{% endblocktranslate %}
+      {% else %}
+        {% translate "Esta obra é um rascunho. Só os autores podem vê-la." %}
+      {% endif %}
+    </p>
+  {% endif %}
+  {% if work.hidden_by_moderator %}<p class="notice">{% translate "Esta obra foi ocultada pela moderação." %}</p>{% endif %}
+
+  {% if can_edit %}
+    <p class="actions author-actions">
+      <a href="{% url 'works:edit' work.pk %}">{% translate "Editar obra" %}</a>
+      <a href="{% url 'works:chapter_edit' work.pk current.position %}">{% translate "Editar este capítulo" %}</a>
+      <a href="{% url 'works:chapter_create' work.pk %}">{% translate "Adicionar capítulo" %}</a>
+    </p>
+  {% endif %}
+
+  <dl class="work-meta">
+    <dt>{% translate "Classificação" %}</dt><dd>{{ work.get_rating_display }}</dd>
+    <dt>{% translate "Avisos" %}</dt>
+    <dd>
+      {% if hide_warnings %}
+        <details><summary>{% translate "Avisos ocultos (clique para ver)" %}</summary>{{ warning_labels|join:", " }}</details>
+      {% else %}
+        {{ warning_labels|join:", " }}
+      {% endif %}
+    </dd>
+    {% if category_labels %}<dt>{% translate "Categorias" %}</dt><dd>{{ category_labels|join:", " }}</dd>{% endif %}
+    {% for label, group in tag_groups %}
+      {% if group %}
+        <dt>{{ label }}</dt>
+        <dd><ul class="tag-list">{% for tag in group %}<li class="tag"><a href="{% url 'tags:detail' tag.pk %}">{{ tag.name }}</a></li>{% endfor %}</ul></dd>
+      {% endif %}
+    {% endfor %}
+    <dt>{% translate "Idioma" %}</dt><dd>{{ work.get_language_display }}</dd>
+    <dt>{% translate "Estatísticas" %}</dt>
+    <dd class="stats">
+      {% if work.published_at %}{% translate "Publicada" %}: {{ work.published_at|date:"SHORT_DATE_FORMAT" }} · {% endif %}
+      {% translate "Atualizada" %}: {{ work.updated_at|date:"SHORT_DATE_FORMAT" }} ·
+      {% translate "Palavras" %}: {{ work.word_count }} ·
+      {% translate "Capítulos" %}: {{ published_count }}/{{ work.expected_chapters|default:"?" }}
+      {% if is_public %}
+        · {% translate "Kudos" %}: {{ kudos.total }}
+        · {% translate "Acessos" %}: {{ hits }}
+        · <a href="{% url 'interactions:work_bookmarks' work.pk %}">{% translate "Bookmarks" %}: {{ bookmark_count }}</a>
+      {% endif %}
+    </dd>
+    {% if collections %}
+      <dt>{% translate "Coleções" %}</dt>
+      <dd>{% for collection in collections %}<a href="{% url 'challenges:detail' collection.slug %}">{{ collection.title }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</dd>
+    {% endif %}
+    {% for item in series_nav %}
+      <dt>{% translate "Série" %}</dt>
+      <dd class="series-nav">
+        {% if item.previous %}<a href="{% url 'works:detail' item.previous %}" aria-label="{% translate 'Obra anterior da série' %}">←</a>{% endif %}
+        {% blocktranslate with part=item.part %}Parte {{ part }} de{% endblocktranslate %} <a href="{% url 'works:series' item.series.pk %}">{{ item.series.title }}</a>
+        {% if item.next %}<a href="{% url 'works:detail' item.next %}" aria-label="{% translate 'Próxima obra da série' %}">→</a>{% endif %}
+      </dd>
+    {% endfor %}
+  </dl>
+
+  <header class="work-header">
+    <h1>{{ work.title }}</h1>
+    <p class="byline">
+      {% for pseud in authors %}<a href="{% url 'works:user_profile' pseud.user.username %}">{{ pseud }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+    </p>
+    {% if work.summary %}<section class="summary"><h2>{% translate "Resumo" %}</h2>{{ work.summary|clean }}</section>{% endif %}
+    {% if work.notes and current.position == 1 or work.notes and full %}<section class="notes"><h2>{% translate "Notas" %}</h2>{{ work.notes|clean }}</section>{% endif %}
+  </header>
+
+  {% if chapters|length > 1 %}
+    <nav class="chapter-nav" aria-label="{% translate 'Capítulos' %}">
+      {% if previous %}<a href="{% url 'works:chapter' work.pk previous.position %}">← {% translate "Capítulo anterior" %}</a>{% endif %}
+      {% if full %}
+        <a href="{% url 'works:detail' work.pk %}">{% translate "Ler por capítulo" %}</a>
+      {% else %}
+        <a href="{% url 'works:full' work.pk %}">{% translate "Obra completa" %}</a>
+      {% endif %}
+      {% if next %}<a href="{% url 'works:chapter' work.pk next.position %}">{% translate "Próximo capítulo" %} →</a>{% endif %}
+    </nav>
+  {% endif %}
+
+  {% for chapter, html in rendered %}
+    <article class="chapter">
+      {% if chapters|length > 1 %}
+        <h2>{% blocktranslate with number=chapter.position %}Capítulo {{ number }}{% endblocktranslate %}{% if chapter.title %}: {{ chapter.title }}{% endif %}
+          {% if chapter.status != "published" %}<span class="badge">{{ chapter.get_status_display }}</span>{% endif %}
+        </h2>
+      {% endif %}
+      {% if chapter.summary %}<section class="summary">{{ chapter.summary|clean }}</section>{% endif %}
+      {% if chapter.notes %}<section class="notes">{{ chapter.notes|clean }}</section>{% endif %}
+      <div class="userstuff">{{ html|safe }}</div>
+      {% if chapter.end_notes %}<section class="notes">{{ chapter.end_notes|clean }}</section>{% endif %}
+    </article>
+  {% endfor %}
+
+  {% if work.end_notes and not next %}<section class="notes"><h2>{% translate "Notas finais" %}</h2>{{ work.end_notes|clean }}</section>{% endif %}
+
+  {% if next %}
+    <p class="chapter-nav"><a href="{% url 'works:chapter' work.pk next.position %}">{% translate "Próximo capítulo" %} →</a></p>
+  {% endif %}
+
+  {% if is_public %}{% include "interactions/_reader_footer.html" %}{% endif %}
+{% endblock %}

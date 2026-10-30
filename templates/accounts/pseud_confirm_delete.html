@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Excluir pseudônimo" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Excluir pseudônimo" %}</h1>
+  <p>{% blocktranslate with name=pseud.name %}Tem certeza que quer excluir "{{ name }}"? As obras, bookmarks e comentários dele passam para o seu pseudônimo padrão.{% endblocktranslate %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="danger">{% translate "Sim, excluir" %}</button>
+    <a href="{% url 'accounts:pseuds' %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

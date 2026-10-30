@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Importar obra" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Importar obra (PDF do AO3)" %}</h1>
+  <ol class="steps">
+    <li>{% translate "No AO3, abra a sua obra e use “Download → PDF”." %}</li>
+    <li>{% translate "Envie o arquivo aqui. Título, classificação, avisos, tags, resumo, notas e capítulos são reconhecidos sozinhos." %}</li>
+    <li>{% translate "A obra entra como rascunho, no seu pseudônimo padrão. Você revisa tudo antes de publicar." %}</li>
+  </ol>
+  <p class="muted">{% blocktranslate %}Até {{ max_mb }} MB. PDFs escaneados (foto das páginas) não têm texto e não podem ser importados. Itálico e negrito do PDF podem se perder.{% endblocktranslate %}</p>
+  <form method="post" enctype="multipart/form-data" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Importar" %}</button>
+    <a href="{% url 'works:my_works' %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

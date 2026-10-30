@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ tag.name }}{% endblock %}
+{% block main %}
+  <h1>{{ tag.name }}</h1>
+  <p class="muted">
+    {{ tag.get_type_display }} ·
+    {% if tag.canonical %}{% translate "canônica" %}{% elif tag.merger %}{% translate "sinônimo" %}{% else %}{% translate "ainda não organizada" %}{% endif %} ·
+    {% blocktranslate count n=tag.use_count %}usada em {{ n }} obra{% plural %}usada em {{ n }} obras{% endblocktranslate %}
+    {% if can_wrangle %} · <a href="{% url 'tags:wrangle' tag.pk %}">{% translate "Fazer wrangling" %}</a>{% endif %}
+  </p>
+
+  {% if tag.merger %}
+    <p class="notice">{% translate "Esta tag é sinônimo de" %} <a href="{% url 'tags:detail' tag.merger.pk %}">{{ tag.merger.name }}</a>. {% translate "As obras abaixo incluem todas as variações." %}</p>
+  {% endif %}
+
+  <dl class="tag-relations">
+    {% if fandoms %}<dt>{% translate "Fandoms" %}</dt><dd>{% include "tags/_tag_links.html" with tags=fandoms %}</dd>{% endif %}
+    {% if metatags %}<dt>{% translate "Metatags" %}</dt><dd>{% include "tags/_tag_links.html" with tags=metatags %}</dd>{% endif %}
+    {% if subtags %}<dt>{% translate "Subtags" %}</dt><dd>{% include "tags/_tag_links.html" with tags=subtags %}</dd>{% endif %}
+    {% if synonyms %}<dt>{% translate "Sinônimos" %}</dt><dd>{% include "tags/_tag_links.html" with tags=synonyms %}</dd>{% endif %}
+  </dl>
+
+  {% for label, group in children %}
+    {% if group %}
+      <h2>{{ label }}</h2>
+      {% include "tags/_tag_links.html" with tags=group %}
+    {% endif %}
+  {% endfor %}
+
+  <h2>{% translate "Obras" %}</h2>
+  <p><a href="{% url 'works:search' %}?incluir={{ tag.name|urlencode }}">{% translate "Filtrar estas obras" %}</a></p>
+  {% for listing in page.object_list %}
+    {% include "works/_listing_card.html" %}
+  {% empty %}
+    <p>{% translate "Nenhuma obra com esta tag ainda." %}</p>
+  {% endfor %}
+  {% include "works/_pagination.html" %}
+{% endblock %}

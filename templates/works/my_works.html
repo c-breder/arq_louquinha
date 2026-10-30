@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Minhas obras" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Minhas obras" %}</h1>
+  <p class="actions">
+    <a class="button primary" href="{% url 'works:create' %}">{% translate "Nova obra" %}</a>
+    <a class="button" href="{% url 'works:import' %}">{% translate "Importar obra (PDF do AO3)" %}</a>
+  </p>
+  {% if page.object_list %}
+    <table class="simple-table">
+      <thead>
+        <tr><th>{% translate "Título" %}</th><th>{% translate "Situação" %}</th><th>{% translate "Palavras" %}</th><th>{% translate "Atualizada" %}</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for work in page.object_list %}
+          <tr>
+            <td><a href="{% url 'works:detail' work.pk %}">{{ work.title }}</a></td>
+            <td>{{ work.get_status_display }}{% if work.status == "scheduled" %} ({{ work.scheduled_for|date:"SHORT_DATETIME_FORMAT" }}){% endif %}</td>
+            <td>{{ work.word_count }}</td>
+            <td>{{ work.updated_at|date:"SHORT_DATE_FORMAT" }}</td>
+            <td><a href="{% url 'works:edit' work.pk %}">{% translate "Editar" %}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "works/_pagination.html" %}
+  {% else %}
+    <p>{% translate "Você ainda não tem obras." %}</p>
+  {% endif %}
+{% endblock %}

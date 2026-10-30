@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Tags" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Tags" %}</h1>
+  <form method="get" class="filter-form">
+    <label for="tag-q">{% translate "Nome" %}</label>
+    <input id="tag-q" type="search" name="q" value="{{ query }}">
+    <label for="tag-type">{% translate "Tipo" %}</label>
+    <select id="tag-type" name="tipo">
+      <option value="">{% translate "Todos" %}</option>
+      {% for value, label in types %}<option value="{{ value }}"{% if value == tag_type %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    {# O hidden vem antes: marcado, o "1" do checkbox (último valor) vence #}
+    <input type="hidden" name="canonicas" value="0">
+    <label><input type="checkbox" name="canonicas" value="1"{% if only_canonical %} checked{% endif %}> {% translate "Só canônicas" %}</label>
+    <button type="submit">{% translate "Buscar" %}</button>
+  </form>
+
+  <table class="simple-table">
+    <thead><tr><th>{% translate "Tag" %}</th><th>{% translate "Tipo" %}</th><th>{% translate "Obras" %}</th></tr></thead>
+    <tbody>
+      {% for tag in page.object_list %}
+        <tr>
+          <td><a href="{% url 'tags:detail' tag.pk %}">{{ tag.name }}</a></td>
+          <td>{{ tag.get_type_display }}</td>
+          <td>{{ tag.use_count }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">{% translate "Nenhuma tag encontrada." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include "works/_pagination.html" %}
+{% endblock %}

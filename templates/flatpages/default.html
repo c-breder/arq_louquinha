@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block main %}
+  <article class="page-text">
+    <h1>{{ flatpage.title }}</h1>
+    <div class="userstuff">{{ flatpage.content|clean }}</div>
+    {% if user.is_staff %}
+      <p class="muted"><a href="{% url 'admin:flatpages_flatpage_changelist' %}">{% translate "Editar esta página no admin" %}</a></p>
+    {% endif %}
+  </article>
+{% endblock %}

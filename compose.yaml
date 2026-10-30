@@ -1,0 +1,224 @@
+name: arq_louquinha
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-app: &app
+  env_file:
+    # Produção usa .env.prod (definido pelo scripts/prod.sh)
+    - path: ${APP_ENV_FILE:-.env}
+      required: false
+  environment: &app-env
+    DB_HOST: db
+    REDIS_URL: redis://redis:6379
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+  logging: *logging
+
+x-dev: &dev
+  <<: *app
+  build:
+    context: .
+    target: dev
+  image: arq_louquinha:dev
+  volumes:
+    - .:/app
+  profiles: ["dev"]
+  environment:
+    <<: *app-env
+    DJANGO_DEBUG: "1"
+
+x-prod: &prod
+  <<: *app
+  build:
+    context: .
+    target: prod
+  image: arq_louquinha:prod
+  volumes:
+    - media:/app/media
+  profiles: ["prod"]
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-arq}
+      POSTGRES_USER: ${POSTGRES_USER:-arq}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-arq-dev-only}
+    # Postgres ajustado para pouca RAM
+    command:
+      - postgres
+      - -c
+      - shared_buffers=${PG_SHARED_BUFFERS:-128MB}
+      - -c
+      - effective_cache_size=${PG_EFFECTIVE_CACHE_SIZE:-384MB}
+      - -c
+      - work_mem=${PG_WORK_MEM:-4MB}
+      - -c
+      - maintenance_work_mem=${PG_MAINTENANCE_WORK_MEM:-32MB}
+      - -c
+      - max_connections=${PG_MAX_CONNECTIONS:-30}
+      - -c
+      - max_wal_size=512MB
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - jit=off
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    mem_limit: ${DB_MEM_LIMIT:-384m}
+    cpus: ${DB_CPUS:-1.0}
+    restart: unless-stopped
+    logging: *logging
+
+  redis:
+    image: redis:7-alpine
+    # volatile-lru: só descarta chaves com prazo (cache), nunca a fila do Celery
+    command:
+      - redis-server
+      - --maxmemory
+      - ${REDIS_MAXMEMORY:-96mb}
+      - --maxmemory-policy
+      - volatile-lru
+      - --save
+      - "300"
+      - "10"
+      - --appendonly
+      - "no"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    mem_limit: ${REDIS_MEM_LIMIT:-128m}
+    cpus: ${REDIS_CPUS:-0.5}
+    restart: unless-stopped
+    logging: *logging
+
+  # --- Desenvolvimento (docker compose --profile dev ...) ---
+  web-dev:
+    <<: *dev
+    command: sh -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "127.0.0.1:8000:8000"
+    mem_limit: ${WEB_MEM_LIMIT:-384m}
+
+  worker-dev:
+    <<: *dev
+    command: celery -A config worker -B -s /tmp/celerybeat-schedule -l info --concurrency ${CELERY_CONCURRENCY:-1}
+    mem_limit: ${WORKER_MEM_LIMIT:-256m}
+
+  # --- Produção (docker compose --profile prod ...) ---
+  web:
+    <<: *prod
+    # Sem porta publicada: só o Caddy fala com o Gunicorn
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz/', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    mem_limit: ${WEB_MEM_LIMIT:-384m}
+    cpus: ${WEB_CPUS:-1.0}
+
+  worker:
+    <<: *prod
+    command: celery -A config worker -B -s /tmp/celerybeat-schedule -l info --concurrency ${CELERY_CONCURRENCY:-1}
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A config inspect ping -d celery@$$HOSTNAME --timeout 10"]
+      interval: 60s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
+    mem_limit: ${WORKER_MEM_LIMIT:-320m}
+    cpus: ${WORKER_CPUS:-1.0}
+
+  caddy:
+    build:
+      context: .
+      target: caddy
+    image: arq_louquinha:caddy
+    profiles: ["prod"]
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8080}:8080"
+    volumes:
+      - media:/srv/media:ro
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    mem_limit: ${CADDY_MEM_LIMIT:-64m}
+    cpus: ${CADDY_CPUS:-0.5}
+    restart: unless-stopped
+    logging: *logging
+
+  # Só sobe com CLOUDFLARE_TUNNEL_TOKEN preenchido (o scripts/prod.sh liga o perfil "tunnel")
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    profiles: ["tunnel"]
+    depends_on:
+      - caddy
+    mem_limit: ${CLOUDFLARED_MEM_LIMIT:-64m}
+    cpus: 0.5
+    restart: unless-stopped
+    logging: *logging
+
+  backup:
+    build:
+      context: .
+      target: backup
+    image: arq_louquinha:backup
+    profiles: ["prod"]
+    # Mesmo usuário do site, para os arquivos restaurados terem o dono certo
+    user: "1000:1000"
+    env_file:
+      - path: ${APP_ENV_FILE:-.env}
+        required: false
+    environment:
+      TZ: America/Sao_Paulo
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - media:/data/media
+      - ${BACKUP_DIR:-./backups}:/backups
+      - ${BACKUP_COPY_DIR:-./backups-copia}:/copy
+      - ./deploy/rclone:/config/rclone
+    healthcheck:
+      # Saudável se houver backup completo nas últimas 26 h
+      test: ["CMD-SHELL", "find /backups/daily -name COMPLETO -mmin -1560 | grep -q ."]
+      interval: 10m
+      timeout: 10s
+      start_period: 5m
+    mem_limit: ${BACKUP_MEM_LIMIT:-128m}
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  pgdata:
+  redisdata:
+  media:

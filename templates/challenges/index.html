@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Coleções e desafios" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Coleções e desafios" %}</h1>
+  {% if user.is_authenticated and user.is_approved %}
+    <p><a class="button primary" href="{% url 'challenges:create' %}">{% translate "Criar coleção ou desafio" %}</a></p>
+  {% endif %}
+  <table class="simple-table">
+    <thead><tr><th>{% translate "Título" %}</th><th>{% translate "Tipo" %}</th><th>{% translate "Obras" %}</th><th>{% translate "Situação" %}</th></tr></thead>
+    <tbody>
+      {% for collection in collections %}
+        <tr>
+          <td><a href="{% url 'challenges:detail' collection.slug %}">{{ collection.title }}</a></td>
+          <td>{{ collection.get_kind_display }}</td>
+          <td>{{ collection.works }}</td>
+          <td>{% if collection.accepting %}{% translate "Aberta" %}{% else %}{% translate "Fechada" %}{% endif %}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">{% translate "Nenhuma coleção ainda." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

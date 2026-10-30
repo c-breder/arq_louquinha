@@ -1,0 +1,17 @@
+{% load i18n %}
+{% if items %}
+  <ul class="relation-list">
+    {% for item in items %}
+      <li>
+        <a href="{% url 'tags:wrangle' item.pk %}">{{ item.name }}</a>
+        <form method="post" class="inline-form">
+          {% csrf_token %}
+          <input type="hidden" name="other" value="{{ item.pk }}">
+          <button name="op" value="{{ op }}" class="link-button danger-link">{% translate "remover" %}</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="muted">{% translate "Nenhuma." %}</p>
+{% endif %}

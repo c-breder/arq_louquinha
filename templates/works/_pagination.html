@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if page.has_other_pages %}
+  <nav class="pagination" aria-label="{% translate 'Páginas' %}">
+    {% if page.has_previous %}<a href="?pagina={{ page.previous_page_number }}{% if query_string %}&amp;{{ query_string }}{% endif %}">← {% translate "Anterior" %}</a>{% endif %}
+    <span>{% blocktranslate with number=page.number total=page.paginator.num_pages %}Página {{ number }} de {{ total }}{% endblocktranslate %}</span>
+    {% if page.has_next %}<a href="?pagina={{ page.next_page_number }}{% if query_string %}&amp;{{ query_string }}{% endif %}">{% translate "Próxima" %} →</a>{% endif %}
+  </nav>
+{% endif %}

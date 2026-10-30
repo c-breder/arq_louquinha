@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{{ series.title }}{% endblock %}
+{% block main %}
+  <h1>{{ series.title }}</h1>
+  <p class="byline">
+    {% for pseud in authors %}<a href="{% url 'works:user_profile' pseud.user.username %}">{{ pseud }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+  </p>
+  <p class="muted">
+    {% blocktranslate count n=items|length %}{{ n }} obra{% plural %}{{ n }} obras{% endblocktranslate %} ·
+    {% blocktranslate count n=total_words %}{{ n }} palavra{% plural %}{{ n }} palavras{% endblocktranslate %} ·
+    {% if series.is_complete %}{% translate "Completa" %}{% else %}{% translate "Em andamento" %}{% endif %}
+    {% if can_edit %} · <a href="{% url 'works:series_edit' series.pk %}">{% translate "Editar série" %}</a>{% endif %}
+  </p>
+  {% if series.summary %}<section class="summary">{{ series.summary|clean }}</section>{% endif %}
+  {% if series.notes %}<section class="notes">{{ series.notes|clean }}</section>{% endif %}
+
+  <ol class="series-list">
+    {% for entry, listing in items %}
+      <li>{% include "works/_listing_card.html" %}</li>
+    {% endfor %}
+  </ol>
+{% endblock %}

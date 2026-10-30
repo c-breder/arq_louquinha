@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n ui works_extras %}
+{% block title %}{% translate "Início" %}{% endblock %}
+{% block main %}
+  <h1 class="visually-hidden">{{ SITE_NAME }}</h1>
+
+  <form class="hero-search" method="get" action="{% url 'works:search' %}" role="search">
+    {% icon "search" 24 %}
+    <label for="home-q" class="visually-hidden">{% translate "Buscar obras" %}</label>
+    <input id="home-q" type="search" name="q" placeholder="{% translate 'Buscar por título, autor, fandom, tag...' %}">
+    <button type="submit" class="primary">{% translate "Buscar" %}</button>
+  </form>
+  <nav class="quick-links" aria-label="{% translate 'Atalhos' %}">
+    <a class="pill" href="{% url 'tags:fandoms' %}">{% icon "users" %}{% translate "Fandoms" %}</a>
+    <a class="pill" href="{% url 'challenges:index' %}">{% icon "book" %}{% translate "Coleções" %}</a>
+    <a class="pill" href="{% url 'tags:search' %}">{% icon "tag" %}{% translate "Tags" %}</a>
+  </nav>
+
+  <section class="home-section" aria-labelledby="featured-title">
+    <header class="section-head">
+      <h2 id="featured-title">{% icon "sparkles" 26 %}{% translate "Obras em destaque" %}</h2>
+      <a class="see-all" href="{% url 'works:search' %}?ordenar=kudos">{% translate "Ver todas" %}{% icon "arrow-right" 18 %}</a>
+    </header>
+    {% if featured %}
+      <div class="feature-grid">
+        {% for listing in featured %}{% include "works/_feature_card.html" %}{% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">{% translate "Ainda não há obras publicadas." %}</p>
+    {% endif %}
+  </section>
+
+  <section class="home-section" aria-labelledby="browse-title">
+    <header class="section-head">
+      <h2 id="browse-title">{% icon "compass" 26 %}{% translate "Navegue por..." %}</h2>
+    </header>
+    <div class="browse-grid">
+      <a class="browse-card" href="{% url 'tags:fandoms' %}">
+        {% icon "users" 34 %}
+        <strong>{% translate "Fandoms" %}</strong>
+        <span>{% translate "Encontre suas histórias favoritas por universo." %}</span>
+        {% icon "arrow-right" 20 %}
+      </a>
+      <a class="browse-card" href="{% url 'challenges:index' %}">
+        {% icon "library" 34 %}
+        <strong>{% translate "Coleções" %}</strong>
+        <span>{% translate "Obras organizadas em coleções especiais." %}</span>
+        {% icon "arrow-right" 20 %}
+      </a>
+      <a class="browse-card" href="{% url 'tags:search' %}">
+        {% icon "tags" 34 %}
+        <strong>{% translate "Tags" %}</strong>
+        <span>{% translate "Filtre por temas, gêneros e muito mais." %}</span>
+        {% icon "arrow-right" 20 %}
+      </a>
+      <a class="browse-card" href="{% url 'works:search' %}?ordenar=kudos">
+        {% icon "flame" 34 %}
+        <strong>{% translate "Mais populares" %}</strong>
+        <span>{% translate "As histórias mais queridas da comunidade." %}</span>
+        {% icon "arrow-right" 20 %}
+      </a>
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="updates-title">
+    <header class="section-head">
+      <h2 id="updates-title">{% icon "sparkles" 26 %}{% translate "Últimas atualizações" %}</h2>
+      <a class="see-all" href="{% url 'works:search' %}">{% translate "Ver todas" %}{% icon "arrow-right" 18 %}</a>
+    </header>
+    {% if updates %}
+      <ul class="update-list">
+        {% for chapter in updates %}
+          {% with listing=chapter.work.listing %}
+            <li class="update-row">
+              <span class="update-icon">{% icon "file-text" 20 %}</span>
+              <span class="update-main">
+                <a href="{% url 'works:chapter' chapter.work_id chapter.position %}">{{ listing.title }}</a>
+                <span class="update-meta">{% blocktranslate with number=chapter.position %}Capítulo {{ number }}{% endblocktranslate %} — {% blocktranslate with time=chapter.published_at|ago %}{{ time }} atrás{% endblocktranslate %}</span>
+              </span>
+              <span class="update-fandom">{% with fandoms=listing.card.tags|get_item:"fandom" %}{{ fandoms.0.1|default:"—" }}{% endwith %}</span>
+              <time class="update-date" datetime="{{ chapter.published_at|date:'c' }}">{{ chapter.published_at|date:"SHORT_DATE_FORMAT" }}</time>
+            </li>
+          {% endwith %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">{% translate "Nenhuma atualização ainda." %}</p>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% load static %}
+{{ editor.labels|json_script:"editor-labels" }}
+<script src="{% static 'js/editor.js' %}" defer></script>

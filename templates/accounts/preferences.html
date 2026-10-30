@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Preferências" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Preferências" %}</h1>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">{% translate "Salvar" %}</button>
+  </form>
+
+  <h2>{% translate "Perfil" %}</h2>
+  <ul>
+    <li><a href="{% url 'accounts:pseuds' %}">{% translate "Pseudônimos e avatares" %}</a></li>
+    <li><a href="{% url 'works:user_profile' user.username %}">{% translate "Ver meu perfil público" %}</a></li>
+  </ul>
+
+  <h2>{% translate "Conta e segurança" %}</h2>
+  <ul>
+    <li><a href="{% url 'account_email' %}">{% translate "Endereços de e-mail" %}</a></li>
+    <li><a href="{% url 'account_change_password' %}">{% translate "Trocar senha" %}</a></li>
+    <li><a href="{% url 'mfa_index' %}">{% translate "Verificação em duas etapas" %}</a></li>
+  </ul>
+
+  <h2>{% translate "Seus dados" %}</h2>
+  <ul>
+    <li><a href="{% url 'accounts:export_data' %}">{% translate "Baixar uma cópia dos meus dados (JSON)" %}</a></li>
+    <li><a href="{% url 'accounts:delete_account' %}" class="danger-link">{% translate "Excluir minha conta" %}</a></li>
+  </ul>
+{% endblock %}

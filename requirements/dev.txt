@@ -1,0 +1,6 @@
+-r base.txt
+pytest>=8
+pytest-django>=4.9
+fakeredis>=2.20
+requests>=2.31
+fpdf2>=2.7

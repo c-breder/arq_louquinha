@@ -1,0 +1,18 @@
+{% load i18n %}
+<fieldset class="publish-box">
+  <legend>{% translate "Publicação" %}</legend>
+  {% if publish_form.non_field_errors %}{{ publish_form.non_field_errors }}{% endif %}
+  {% if actions|length > 1 %}
+    <div class="schedule-field">
+      {{ publish_form.scheduled_for.label_tag }}
+      {{ publish_form.scheduled_for }}
+      <small class="muted">{% translate "Só é usado no botão “Agendar”. Horário de Brasília." %}</small>
+      {{ publish_form.scheduled_for.errors }}
+    </div>
+  {% endif %}
+  <div class="actions">
+    {% for value, label in actions %}
+      <button type="submit" name="action" value="{{ value }}"{% if value == "publish" %} class="primary"{% endif %}>{{ label }}</button>
+    {% endfor %}
+  </div>
+</fieldset>

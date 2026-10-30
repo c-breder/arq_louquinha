@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% blocktranslate with name=other.username %}Conversa com {{ name }}{% endblocktranslate %}{% endblock %}
+{% block main %}
+  <p><a href="{% url 'messaging:inbox' %}">← {% translate "Mensagens" %}</a></p>
+  <h1>{% blocktranslate with name=other.username %}Conversa com {{ name }}{% endblocktranslate %}</h1>
+  <ol class="message-list">
+    {% for message in history %}
+      <li class="message-item{% if message.sender_id == user.pk %} mine{% endif %}" id="mensagem-{{ message.pk }}">
+        <p class="muted">{{ message.sender.username }} · {{ message.created_at|date:"SHORT_DATETIME_FORMAT" }}</p>
+        {% if message.hidden_by_moderator %}
+          <p class="muted">{% translate "(mensagem ocultada pela moderação)" %}</p>
+        {% else %}
+          <p>{{ message.body|linebreaksbr }}</p>
+          {% if message.sender_id != user.pk %}<a class="muted" href="{% url 'moderation:report' 'message' message.pk %}">{% translate "Denunciar" %}</a>{% endif %}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Responder" %}</button>
+  </form>
+{% endblock %}

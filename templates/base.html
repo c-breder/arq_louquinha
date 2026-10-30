@@ -1,0 +1,144 @@
+{% load i18n static ui %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% block title %}{% endblock %} · {{ SITE_NAME }}</title>
+  <link rel="preload" href="{% static 'fonts/inter.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'fonts/lora.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <script src="{% static 'js/site.js' %}"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">{% translate "Pular para o conteúdo" %}</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <button type="button" class="icon-button menu-toggle" aria-controls="sidebar" aria-expanded="false">
+        {% icon "menu" 24 %}<span class="visually-hidden">{% translate "Abrir menu" %}</span>
+      </button>
+
+      <a class="brand" href="{% url 'home' %}">
+        {% include "partials/logo.html" %}
+        <span class="brand-text">
+          <span class="brand-name">{{ SITE_NAME }}</span>
+          <span class="brand-tagline">{% translate "Um arquivo de histórias." %}</span>
+        </span>
+      </a>
+
+      <nav class="top-nav" aria-label="{% translate 'Principal' %}">
+        <a href="{% url 'home' %}" {% nav_state 'inicio' %}>{% icon "home" %}<span>{% translate "Início" %}</span></a>
+        <a href="{% url 'works:search' %}" {% nav_state 'obras' %}>{% icon "file" %}<span>{% translate "Obras" %}</span></a>
+        <a href="{% url 'tags:fandoms' %}" {% nav_state 'fandoms' %}>{% icon "users" %}<span>{% translate "Fandoms" %}</span></a>
+        <a href="{% url 'challenges:index' %}" {% nav_state 'colecoes' %}>{% icon "book" %}<span>{% translate "Coleções" %}</span></a>
+        <a href="{% url 'tags:search' %}" {% nav_state 'tags' %}>{% icon "tag" %}<span>{% translate "Tags" %}</span></a>
+      </nav>
+
+      <div class="header-tools">
+        <a class="icon-button" href="{% url 'works:search' %}">{% icon "search" 22 %}<span class="visually-hidden">{% translate "Buscar" %}</span></a>
+
+        <details class="user-menu">
+          <summary class="icon-button">
+            {% icon "user" 28 %}
+            <span class="visually-hidden">{% if user.is_authenticated %}{% translate "Menu da conta" %}{% else %}{% translate "Entrar ou criar conta" %}{% endif %}</span>
+            {% if user.is_authenticated %}{% with unread=UNREAD_MESSAGES invites=PENDING_INVITES reports=OPEN_REPORTS %}{% if unread or invites or reports %}<span class="dot" aria-hidden="true"></span>{% endif %}{% endwith %}{% endif %}
+          </summary>
+          <div class="menu-panel">
+            {% if user.is_authenticated %}
+              <p class="menu-greeting">{% blocktranslate with name=user.username %}Olá, {{ name }}{% endblocktranslate %}</p>
+              {% if user.is_approved %}
+                <a href="{% url 'works:create' %}">{% icon "plus" 18 %}{% translate "Nova obra" %}</a>
+                <a href="{% url 'works:import' %}">{% icon "upload" 18 %}{% translate "Importar obra" %}</a>
+                <a href="{% url 'works:my_works' %}">{% icon "file" 18 %}{% translate "Minhas obras" %}</a>
+                <a href="{% url 'messaging:inbox' %}">{% icon "message" 18 %}{% translate "Mensagens" %}{% with unread=UNREAD_MESSAGES %}{% if unread %} <span class="badge">{{ unread }}</span>{% endif %}{% endwith %}</a>
+                {% with invites=PENDING_INVITES %}{% if invites %}
+                  <a href="{% url 'works:invitations' %}">{% icon "users" 18 %}{% blocktranslate count n=invites %}{{ n }} convite{% plural %}{{ n }} convites{% endblocktranslate %}</a>
+                {% endif %}{% endwith %}
+                <a href="{% url 'works:user_profile' user.username %}">{% icon "user" 18 %}{% translate "Meu perfil" %}</a>
+              {% endif %}
+              <a href="{% url 'accounts:preferences' %}">{% icon "settings" 18 %}{% translate "Preferências" %}</a>
+              {% if CAN_WRANGLE %}<a href="{% url 'tags:wrangling' %}">{% icon "tags" 18 %}{% translate "Wrangling" %}</a>{% endif %}
+              {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}">{% icon "shield" 18 %}{% translate "Admin" %}</a>
+                {% with reports=OPEN_REPORTS %}{% if reports %}<a href="{% url 'admin:moderation_report_changelist' %}?status__exact=open">{% icon "info" 18 %}{% translate "Denúncias" %} <span class="badge">{{ reports }}</span></a>{% endif %}{% endwith %}
+              {% endif %}
+              <form method="post" action="{% url 'account_logout' %}" class="menu-form">
+                {% csrf_token %}
+                <button type="submit" class="menu-button">{% icon "logout" 18 %}{% translate "Sair" %}</button>
+              </form>
+            {% else %}
+              <a href="{% url 'account_login' %}">{% icon "login" 18 %}{% translate "Entrar" %}</a>
+              <a href="{% url 'account_signup' %}">{% icon "plus" 18 %}{% translate "Criar conta" %}</a>
+            {% endif %}
+            <form method="post" action="{% url 'set_language' %}" class="language-form">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <label for="language-select">{% icon "globe" 18 %}{% translate "Idioma" %}</label>
+              <select id="language-select" name="language">
+                {% for code, name in AVAILABLE_LANGUAGES %}
+                  <option value="{{ code }}" lang="{{ code }}"{% if code == LANGUAGE_CODE %} selected{% endif %}>{{ name }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" class="language-submit">{% translate "Trocar" %}</button>
+            </form>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="sidebar" class="sidebar">
+      <nav aria-label="{% translate 'Navegação lateral' %}">
+        <p class="sidebar-title">{% translate "Navegar" %}</p>
+        <ul class="side-nav">
+          <li><a href="{% url 'home' %}" {% nav_state 'inicio' %}>{% icon "home" 22 %}{% translate "Início" %}</a></li>
+          <li><a href="{% url 'works:search' %}" {% nav_state 'obras' %}>{% icon "file" 22 %}{% translate "Obras" %}</a></li>
+          <li><a href="{% url 'tags:fandoms' %}" {% nav_state 'fandoms' %}>{% icon "users" 22 %}{% translate "Fandoms" %}</a></li>
+          <li><a href="{% url 'challenges:index' %}" {% nav_state 'colecoes' %}>{% icon "book" 22 %}{% translate "Coleções" %}</a></li>
+          <li><a href="{% url 'tags:search' %}" {% nav_state 'tags' %}>{% icon "tag" 22 %}{% translate "Tags" %}</a></li>
+        </ul>
+        <p class="sidebar-title">{% translate "Mais" %}</p>
+        <ul class="side-nav">
+          <li><a href="{% url 'about' %}" {% nav_state 'sobre' %}>{% icon "info" 22 %}{% translate "Sobre" %}</a></li>
+          <li><a href="{% url 'terms' %}" {% nav_state 'termos' %}>{% icon "terms" 22 %}{% translate "Termos de Uso" %}</a></li>
+          <li><a href="{% url 'contact' %}" {% nav_state 'contato' %}>{% icon "mail" 22 %}{% translate "Contato" %}</a></li>
+        </ul>
+      </nav>
+
+      <figure class="zenilda">
+        {% include "partials/botanical.html" %}
+        <blockquote lang="pt-BR">“Nenhum gesto humano pode abolir o acaso, então, se abra para o inesperado.”</blockquote>
+        <figcaption>— Zenilda, <cite>Três Graças</cite></figcaption>
+        {% icon "heart" 16 %}
+      </figure>
+    </aside>
+    <div class="sidebar-backdrop" hidden></div>
+
+    <main id="main" class="content">
+      {% if messages %}
+        <ul class="messages" role="status">
+          {% for message in messages %}
+            <li class="message {{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      {% block main %}{% endblock %}
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="{% url 'home' %}">{% include "partials/logo.html" with size=36 %}<span>{{ SITE_NAME }}</span></a>
+      <nav class="footer-nav" aria-label="{% translate 'Rodapé' %}">
+        <a href="{% url 'about' %}">{% translate "Sobre" %}</a>
+        <a href="{% url 'terms' %}">{% translate "Termos de Uso" %}</a>
+        <a href="{% url 'contact' %}">{% translate "Contato" %}</a>
+      </nav>
+      <p class="footer-love">{% icon "heart" 16 %}<span>{% translate "Feito por alguém que também ama histórias." %}</span>{% icon "heart" 14 %}</p>
+    </div>
+  </footer>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

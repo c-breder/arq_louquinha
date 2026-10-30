@@ -1,0 +1,1 @@
+<ul class="tag-list">{% for item in tags %}<li><a href="{% url 'tags:detail' item.pk %}">{{ item.name }}</a></li>{% endfor %}</ul>

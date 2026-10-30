@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Excluir minha conta" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Excluir minha conta" %}</h1>
+  <p>{% translate "Isso não pode ser desfeito. Seus pseudônimos, bookmarks, kudos e preferências serão apagados. Seus comentários continuam, mas aparecem como “conta excluída”." %}</p>
+  <p>{% translate "Obras com outros coautores continuam no ar com o nome deles; só o seu sai." %}</p>
+  <p><a href="{% url 'accounts:export_data' %}">{% translate "Antes, baixe uma cópia dos seus dados." %}</a></p>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="danger">{% translate "Excluir minha conta para sempre" %}</button>
+    <a href="{% url 'accounts:preferences' %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

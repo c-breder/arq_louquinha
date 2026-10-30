@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{{ collection.title }}{% endblock %}
+{% block main %}
+  <h1>{{ collection.title }}</h1>
+  <p class="muted">
+    {{ collection.get_kind_display }} ·
+    {% translate "por" %} <a href="{% url 'works:user_profile' collection.owner.username %}">{{ collection.owner.username }}</a> ·
+    {% if collection.accepting %}{% translate "aceitando obras" %}{% else %}{% translate "fechada" %}{% endif %}
+    {% if collection.closes_at %} · {% blocktranslate with when=collection.closes_at|date:"DATETIME_FORMAT" %}prazo: {{ when }}{% endblocktranslate %}{% endif %}
+    {% if collection.is_moderated %} · {% translate "moderada" %}{% endif %}
+  </p>
+  {% if can_manage %}
+    <p class="actions">
+      <a href="{% url 'challenges:edit' collection.slug %}">{% translate "Editar" %}</a>
+      <a href="{% url 'challenges:manage' collection.slug %}">{% translate "Gerenciar obras" %}{% if pending %} <span class="badge">{{ pending }}</span>{% endif %}</a>
+    </p>
+  {% endif %}
+  {% if collection.description %}<section class="summary">{{ collection.description|clean }}</section>{% endif %}
+  {% if collection.accepting %}
+    <p class="muted">{% blocktranslate with slug=collection.slug %}Para participar, abra a edição da sua obra e adicione-a à coleção “{{ slug }}”.{% endblocktranslate %}</p>
+  {% endif %}
+
+  {% if prompts is not None %}
+    <section>
+      <h2>{% translate "Prompts" %}</h2>
+      <ol class="prompt-list">
+        {% for prompt in prompts %}
+          <li id="prompt-{{ prompt.pk }}">
+            <p>{{ prompt.text|linebreaksbr }}</p>
+            <p class="muted">{% blocktranslate count n=prompt.fill_count %}{{ n }} resposta{% plural %}{{ n }} respostas{% endblocktranslate %} · {% translate "número para responder:" %} {{ prompt.pk }}</p>
+          </li>
+        {% empty %}
+          <li>{% translate "Nenhum prompt ainda." %}</li>
+        {% endfor %}
+      </ol>
+      {% if collection.accepting and user.is_authenticated and user.is_approved %}
+        <form method="post" action="{% url 'challenges:add_prompt' collection.slug %}" class="stacked-form">
+          {% csrf_token %}
+          {{ prompt_form.text.label_tag }} {{ prompt_form.text }}
+          <button type="submit">{% translate "Enviar prompt" %}</button>
+        </form>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <h2>{% translate "Obras" %}</h2>
+  {% for listing in page.object_list %}
+    {% include "works/_listing_card.html" %}
+  {% empty %}
+    <p>{% translate "Nenhuma obra ainda." %}</p>
+  {% endfor %}
+  {% include "works/_pagination.html" %}
+{% endblock %}

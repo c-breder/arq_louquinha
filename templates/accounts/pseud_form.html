@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% if pseud %}{% translate "Editar pseudônimo" %}{% else %}{% translate "Novo pseudônimo" %}{% endif %}{% endblock %}
+{% block main %}
+  <h1>{% if pseud %}{% translate "Editar pseudônimo" %}{% else %}{% translate "Novo pseudônimo" %}{% endif %}</h1>
+  {% if pseud %}{% include "accounts/_avatar.html" with pseud=pseud %}{% endif %}
+  <form method="post" enctype="multipart/form-data" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">{% translate "Salvar" %}</button>
+    <a href="{% url 'accounts:pseuds' %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

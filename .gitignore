@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+media/
+staticfiles/
+*.mo
+backups/
+.env.prod
+backups-copia/
+deploy/rclone/
+importar_teste/

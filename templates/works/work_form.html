@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% if work %}{% translate "Editar obra" %}{% else %}{% translate "Nova obra" %}{% endif %}{% endblock %}
+{% block main %}
+  <h1>{% if work %}{% translate "Editar obra" %}{% else %}{% translate "Nova obra" %}{% endif %}</h1>
+  {% if not work %}<p><a href="{% url 'works:import' %}">{% translate "Já publicou no AO3? Importe o PDF da obra." %}</a></p>{% endif %}
+  {% if work %}
+    <p class="actions">
+      <a href="{% url 'works:detail' work.pk %}">{% translate "Ver obra" %}</a>
+      <a href="{% url 'works:chapter_create' work.pk %}">{% translate "Adicionar capítulo" %}</a>
+      <a href="{% url 'works:delete' work.pk %}" class="danger-link">{% translate "Excluir obra" %}</a>
+    </p>
+    <h2>{% translate "Capítulos" %}</h2>
+    <ol class="chapter-admin-list">
+      {% for chapter in work.chapters.all %}
+        <li>
+          {{ chapter }} <span class="badge">{{ chapter.get_status_display }}</span>
+          <a href="{% url 'works:chapter_edit' work.pk chapter.position %}">{% translate "Editar" %}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  {% endif %}
+
+  <form method="post" class="stacked-form work-form" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <fieldset>
+      <legend>{% translate "Classificação e tags" %}</legend>
+      {% include "works/_field.html" with field=form.rating %}
+      {% include "works/_field.html" with field=form.warnings %}
+      {% include "works/_field.html" with field=form.categories %}
+      {% include "works/_field.html" with field=form.fandom_tags %}
+      {% include "works/_field.html" with field=form.relationship_tags %}
+      {% include "works/_field.html" with field=form.character_tags %}
+      {% include "works/_field.html" with field=form.freeform_tags %}
+    </fieldset>
+
+    <fieldset>
+      <legend>{% translate "Obra" %}</legend>
+      {% include "works/_field.html" with field=form.title %}
+      {% include "works/_field.html" with field=form.pseuds %}
+      {% include "works/_field.html" with field=form.language %}
+      {% include "works/_field.html" with field=form.summary %}
+      {% include "works/_field.html" with field=form.notes %}
+      {% include "works/_field.html" with field=form.end_notes %}
+      {% include "works/_field.html" with field=form.is_complete %}
+      {% include "works/_field.html" with field=form.expected_chapters %}
+      {% include "works/_field.html" with field=form.restricted %}
+    </fieldset>
+
+    {% if chapter_form %}
+      <fieldset>
+        <legend>{% translate "Primeiro capítulo" %}</legend>
+        {% include "works/_field.html" with field=chapter_form.title %}
+        {% include "works/_field.html" with field=chapter_form.summary %}
+        {% include "works/_field.html" with field=chapter_form.notes %}
+        <div class="field{% if chapter_form.content.errors %} has-error{% endif %}">
+          {{ chapter_form.content.label_tag }}
+          <div class="editor-host" data-upload-url="{{ editor.upload_url }}">{{ chapter_form.content }}</div>
+          {{ chapter_form.content.errors }}
+        </div>
+        {% include "works/_field.html" with field=chapter_form.end_notes %}
+      </fieldset>
+    {% endif %}
+
+    {% include "works/_publish_buttons.html" %}
+  </form>
+
+  {% if work %}
+    <section class="coauthors">
+      <h2>{% translate "Coautoria" %}</h2>
+      <ul>
+        {% for authorship in authorships %}
+          <li>{{ authorship.pseud }} — {{ authorship.get_status_display }}</li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{% url 'works:coauthor_invite' work.pk %}" class="inline-form">
+        {% csrf_token %}
+        {{ invite_form.username.label_tag }} {{ invite_form.username }}
+        <button type="submit">{% translate "Convidar" %}</button>
+      </form>
+      <form method="post" action="{% url 'works:leave' work.pk %}" class="inline-form leave-form">
+        {% csrf_token %}
+        <button type="submit" class="link-button danger-link">{% translate "Sair da autoria" %}</button>
+      </form>
+    </section>
+
+    <section class="wrangle-box">
+      <h2>{% translate "Séries" %}</h2>
+      <ul>
+        {% for entry in series_entries %}
+          <li>
+            <a href="{% url 'works:series' entry.series.pk %}">{{ entry.series.title }}</a> ({% blocktranslate with part=entry.position %}parte {{ part }}{% endblocktranslate %})
+            <form method="post" action="{% url 'works:remove_from_series' work.pk entry.series.pk %}" class="inline-form">
+              {% csrf_token %}<button type="submit" class="link-button danger-link">{% translate "remover" %}</button>
+            </form>
+          </li>
+        {% empty %}
+          <li class="muted">{% translate "Esta obra não está em nenhuma série." %}</li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{% url 'works:add_to_series' work.pk %}" class="inline-form wrangle-form">
+        {% csrf_token %}
+        {{ series_form.series.label_tag }} {{ series_form.series }}
+        {{ series_form.new_title.label_tag }} {{ series_form.new_title }}
+        <button type="submit">{% translate "Adicionar à série" %}</button>
+      </form>
+    </section>
+
+    <section class="wrangle-box">
+      <h2>{% translate "Coleções e desafios" %}</h2>
+      <ul>
+        {% for item in collection_items %}
+          <li>
+            <a href="{% url 'challenges:detail' item.collection.slug %}">{{ item.collection.title }}</a> — {{ item.get_status_display }}
+            <form method="post" action="{% url 'challenges:remove_work' work.pk item.collection.slug %}" class="inline-form">
+              {% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+              <button type="submit" class="link-button danger-link">{% translate "remover" %}</button>
+            </form>
+          </li>
+        {% empty %}
+          <li class="muted">{% translate "Esta obra não está em nenhuma coleção." %}</li>
+        {% endfor %}
+      </ul>
+      <form method="post" action="{% url 'challenges:add_work' work.pk %}" class="inline-form wrangle-form">
+        {% csrf_token %}
+        <label for="collection-slug">{% translate "Endereço da coleção" %}</label>
+        <input id="collection-slug" name="collection" required placeholder="ex.: desafio-de-natal">
+        <label for="collection-prompt">{% translate "Número do prompt (opcional)" %}</label>
+        <input id="collection-prompt" name="prompt" type="number" min="1">
+        <button type="submit">{% translate "Adicionar à coleção" %}</button>
+      </form>
+    </section>
+  {% endif %}
+
+  {% if chapter_form %}{% include "works/_editor_assets.html" %}{% endif %}
+  {% load static %}<script src="{% static 'js/tag_autocomplete.js' %}" defer></script>
+{% endblock %}

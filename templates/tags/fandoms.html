@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Fandoms" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Fandoms" %}</h1>
+  <ul class="fandom-index">
+    {% for fandom in fandoms %}
+      <li><a href="{% url 'tags:detail' fandom.pk %}">{{ fandom.name }}</a> <span class="muted">({{ fandom.use_count }})</span></li>
+    {% empty %}
+      <li>{% translate "Nenhum fandom organizado ainda." %}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

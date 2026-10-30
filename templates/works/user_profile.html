@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{{ profile.username }}{% endblock %}
+{% block main %}
+  <h1>{{ profile.username }}</h1>
+  <p class="actions">
+    <a href="{% url 'interactions:user_bookmarks' profile.username %}">{% translate "Bookmarks" %}</a>
+    {% if user.is_authenticated and user != profile and profile.allow_messages and profile.is_active %}
+      <a href="{% url 'messaging:new' %}?para={{ profile.username|urlencode }}">{% translate "Mandar mensagem" %}</a>
+    {% endif %}
+    {% if user.is_authenticated and user != profile and profile.is_active %}
+      <a class="muted" href="{% url 'moderation:report' 'user' profile.pk %}">{% translate "Denunciar" %}</a>
+    {% endif %}
+  </p>
+  <ul class="pseud-list">
+    {% for pseud in pseuds %}
+      <li class="pseud-item">
+        {% include "accounts/_avatar.html" with pseud=pseud %}
+        <div>
+          <strong>{{ pseud.name }}</strong>
+          {% if pseud.description %}<p class="muted">{{ pseud.description|linebreaksbr }}</p>{% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h2>{% translate "Obras" %}</h2>
+  {% for listing in page.object_list %}
+    {% include "works/_listing_card.html" %}
+  {% empty %}
+    <p>{% translate "Nenhuma obra publicada ainda." %}</p>
+  {% endfor %}
+  {% include "works/_pagination.html" %}
+{% endblock %}

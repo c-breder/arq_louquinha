@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% if chapter %}{% translate "Editar capítulo" %}{% else %}{% translate "Novo capítulo" %}{% endif %} · {{ work.title }}{% endblock %}
+{% block main %}
+  <h1>{% if chapter %}{% blocktranslate with number=chapter.position %}Editar capítulo {{ number }}{% endblocktranslate %}{% else %}{% translate "Novo capítulo" %}{% endif %}</h1>
+  <p><a href="{% url 'works:detail' work.pk %}">{{ work.title }}</a></p>
+
+  <form method="post" class="stacked-form" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% include "works/_field.html" with field=form.title %}
+    {% include "works/_field.html" with field=form.summary %}
+    {% include "works/_field.html" with field=form.notes %}
+    <div class="field{% if form.content.errors %} has-error{% endif %}">
+      {{ form.content.label_tag }}
+      <div class="editor-host" data-upload-url="{{ editor.upload_url }}">{{ form.content }}</div>
+      {{ form.content.errors }}
+    </div>
+    {% include "works/_field.html" with field=form.end_notes %}
+    {% include "works/_publish_buttons.html" %}
+  </form>
+
+  {% if chapter %}
+    <p><a href="{% url 'works:chapter_delete' work.pk chapter.position %}" class="danger-link">{% translate "Excluir capítulo" %}</a></p>
+  {% endif %}
+  {% include "works/_editor_assets.html" %}
+{% endblock %}

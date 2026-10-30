@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Obras" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Obras" %}</h1>
+  <div class="search-layout">
+    <form method="get" class="search-filters" aria-label="{% translate 'Filtros' %}">
+      {% for field in form %}
+        {% include "works/_field.html" %}
+      {% endfor %}
+      <div class="actions">
+        <button type="submit" class="primary">{% translate "Filtrar" %}</button>
+        <a href="{% url 'works:search' %}">{% translate "Limpar" %}</a>
+      </div>
+    </form>
+
+    <section class="search-results" aria-live="polite">
+      <p class="muted">{% blocktranslate count n=page.paginator.count %}{{ n }} obra encontrada{% plural %}{{ n }} obras encontradas{% endblocktranslate %}</p>
+      {% for listing in page.object_list %}
+        {% include "works/_listing_card.html" %}
+      {% empty %}
+        <p>{% translate "Nenhuma obra com esses filtros." %}</p>
+      {% endfor %}
+      {% include "works/_pagination.html" %}
+    </section>
+  </div>
+  <script src="{% static 'js/tag_autocomplete.js' %}" defer></script>
+{% endblock %}

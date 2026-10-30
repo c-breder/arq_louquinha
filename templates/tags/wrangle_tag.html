@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Wrangling" %}: {{ tag.name }}{% endblock %}
+{% block main %}
+  <p><a href="{% url 'tags:wrangling' %}?tipo={{ tag.type }}">← {% translate "Voltar ao wrangling" %}</a></p>
+  <h1>{{ tag.name }}</h1>
+  <p class="muted">
+    {{ tag.get_type_display }} ·
+    {% if tag.canonical %}{% translate "canônica" %}{% elif tag.merger %}{% translate "sinônimo de" %} <a href="{% url 'tags:wrangle' tag.merger.pk %}">{{ tag.merger.name }}</a>{% else %}{% translate "sem decisão" %}{% endif %} ·
+    {% blocktranslate count n=tag.use_count %}usada em {{ n }} obra{% plural %}usada em {{ n }} obras{% endblocktranslate %} ·
+    <a href="{% url 'tags:detail' tag.pk %}">{% translate "Ver página pública" %}</a>
+  </p>
+
+  <section class="wrangle-box">
+    <h2>{% translate "Situação" %}</h2>
+    <div class="actions">
+      {% if not tag.canonical and not tag.merger %}
+        <form method="post">{% csrf_token %}<button name="op" value="canonize" class="primary">{% translate "Tornar canônica" %}</button></form>
+      {% endif %}
+      {% if tag.canonical %}
+        <form method="post">{% csrf_token %}<button name="op" value="decanonize">{% translate "Deixar de ser canônica" %}</button></form>
+      {% endif %}
+      {% if tag.merger %}
+        <form method="post">{% csrf_token %}<button name="op" value="unmerge">{% translate "Desfazer sinônimo" %}</button></form>
+      {% endif %}
+    </div>
+    <form method="post" class="inline-form wrangle-form">
+      {% csrf_token %}
+      <label for="merge-target">{% if tag.canonical %}{% translate "Juntar em outra canônica (vira sinônimo dela)" %}{% else %}{% translate "Tornar sinônimo de" %}{% endif %}</label>
+      <input id="merge-target" name="target" data-tag-autocomplete="{{ tag.type }}" autocomplete="off" required>
+      <button name="op" value="merge">{% translate "Aplicar" %}</button>
+    </form>
+  </section>
+
+  {% if synonyms %}
+    <section class="wrangle-box">
+      <h2>{% translate "Sinônimos" %}</h2>
+      <ul>{% for synonym in synonyms %}<li><a href="{% url 'tags:wrangle' synonym.pk %}">{{ synonym.name }}</a> <span class="muted">({{ synonym.use_count }})</span></li>{% endfor %}</ul>
+    </section>
+  {% endif %}
+
+  {% if tag.canonical %}
+    <section class="wrangle-box">
+      <h2>{% translate "Metatags (mais amplas)" %}</h2>
+      {% include "tags/_relation_list.html" with items=metatags op="remove_meta" %}
+      <form method="post" class="inline-form wrangle-form">
+        {% csrf_token %}
+        <label for="meta-target">{% translate "Adicionar metatag" %}</label>
+        <input id="meta-target" name="target" data-tag-autocomplete="{{ tag.type }}" autocomplete="off" required>
+        <button name="op" value="add_meta">{% translate "Adicionar" %}</button>
+      </form>
+    </section>
+
+    <section class="wrangle-box">
+      <h2>{% translate "Subtags (mais específicas)" %}</h2>
+      {% include "tags/_relation_list.html" with items=subtags op="remove_sub" %}
+      <form method="post" class="inline-form wrangle-form">
+        {% csrf_token %}
+        <label for="sub-target">{% translate "Adicionar subtag" %}</label>
+        <input id="sub-target" name="target" data-tag-autocomplete="{{ tag.type }}" autocomplete="off" required>
+        <button name="op" value="add_sub">{% translate "Adicionar" %}</button>
+      </form>
+    </section>
+  {% endif %}
+
+  {% if not is_fandom and not tag.merger %}
+    <section class="wrangle-box">
+      <h2>{% translate "Fandoms" %}</h2>
+      {% include "tags/_relation_list.html" with items=fandoms op="remove_fandom" %}
+      <form method="post" class="inline-form wrangle-form">
+        {% csrf_token %}
+        <label for="fandom-target">{% translate "Ligar ao fandom" %}</label>
+        <input id="fandom-target" name="target" data-tag-autocomplete="fandom" autocomplete="off" required>
+        <button name="op" value="add_fandom">{% translate "Ligar" %}</button>
+      </form>
+    </section>
+  {% endif %}
+  <script src="{% static 'js/tag_autocomplete.js' %}" defer></script>
+{% endblock %}

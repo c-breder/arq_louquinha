@@ -1,0 +1,24 @@
+{% load i18n works_extras ui cache %}
+{# Card compacto da página inicial (sem capa); fica no cache como o card das listagens #}
+{% cache 86400 feature_card listing.work_id listing.refreshed_at.timestamp LANGUAGE_CODE %}
+{% with card=listing.card %}
+<article class="feature-card">
+  <span class="status-chip">{% if listing.is_complete %}{% translate "Concluída" %}{% else %}{% translate "Em andamento" %}{% endif %}</span>
+  <h3 class="feature-title"><a href="{% url 'works:detail' listing.work_id %}">{{ listing.title }}</a></h3>
+  <p class="feature-author">{% for author in card.authors %}{{ author.name }}{% if not forloop.last %}, {% endif %}{% empty %}—{% endfor %}</p>
+  {% with fandoms=card.tags|get_item:"fandom" %}{% if fandoms %}
+    <p class="feature-fandom">{% icon "globe" 18 %}<span>{{ fandoms.0.1 }}{% if fandoms|length > 1 %} +{{ fandoms|length|add:"-1" }}{% endif %}</span></p>
+  {% endif %}{% endwith %}
+  {% with tags=card.tags|get_item:"freeform" %}{% if tags %}
+    <ul class="chip-list">
+      {% for tag in tags|slice:":2" %}<li class="chip">{{ tag.1 }}</li>{% endfor %}
+      {% if tags|length > 2 %}<li class="chip chip-more">+{{ tags|length|add:"-2" }}</li>{% endif %}
+    </ul>
+  {% endif %}{% endwith %}
+  <p class="feature-stats">
+    <span>{% icon "book" 18 %}{% blocktranslate count n=listing.chapter_count %}{{ n }} capítulo{% plural %}{{ n }} capítulos{% endblocktranslate %}</span>
+    <span>{% icon "heart" 18 %}<span class="visually-hidden">{% translate "Kudos" %}:</span> {{ listing.kudos_count }}</span>
+  </p>
+</article>
+{% endwith %}
+{% endcache %}

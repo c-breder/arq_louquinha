@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Gerenciar obras" %}{% endblock %}
+{% block main %}
+  <p><a href="{% url 'challenges:detail' collection.slug %}">← {{ collection.title }}</a></p>
+  <h1>{% translate "Gerenciar obras" %}</h1>
+  <table class="simple-table">
+    <thead><tr><th>{% translate "Obra" %}</th><th>{% translate "Prompt" %}</th><th>{% translate "Situação" %}</th><th></th></tr></thead>
+    <tbody>
+      {% for item in items %}
+        <tr>
+          <td><a href="{% url 'works:detail' item.work_id %}">{{ item.work.title }}</a></td>
+          <td>{{ item.prompt|default:"—" }}</td>
+          <td>{{ item.get_status_display }}</td>
+          <td>
+            <form method="post" class="inline-form">
+              {% csrf_token %}
+              <input type="hidden" name="item" value="{{ item.pk }}">
+              {% if item.status != "approved" %}<button name="decision" value="approved" class="primary">{% translate "Aprovar" %}</button>{% endif %}
+              {% if item.status != "rejected" %}<button name="decision" value="rejected">{% translate "Recusar" %}</button>{% endif %}
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">{% translate "Nenhuma obra enviada ainda." %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

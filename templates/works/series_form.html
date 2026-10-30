@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Editar série" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Editar série" %}</h1>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Salvar" %}</button>
+    <a href="{% url 'works:series' series.pk %}">{% translate "Cancelar" %}</a>
+  </form>
+
+  <h2>{% translate "Ordem das obras" %}</h2>
+  <ol>
+    {% for entry in entries %}
+      <li>
+        {{ entry.work.title }}
+        <form method="post" action="{% url 'works:series_move' series.pk entry.pk 'subir' %}" class="inline-form">
+          {% csrf_token %}<button type="submit" aria-label="{% translate 'Subir' %}"{% if forloop.first %} disabled{% endif %}>↑</button>
+        </form>
+        <form method="post" action="{% url 'works:series_move' series.pk entry.pk 'descer' %}" class="inline-form">
+          {% csrf_token %}<button type="submit" aria-label="{% translate 'Descer' %}"{% if forloop.last %} disabled{% endif %}>↓</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ol>
+{% endblock %}

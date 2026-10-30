@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Pseudônimos" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Pseudônimos" %}</h1>
+  <p>{% translate "Você pode publicar com nomes diferentes. Todos ficam ligados à sua conta." %}</p>
+  <ul class="pseud-list">
+    {% for pseud in pseuds %}
+      <li class="pseud-item">
+        {% include "accounts/_avatar.html" with pseud=pseud %}
+        <div>
+          <strong>{{ pseud.name }}</strong>{% if pseud.is_default %} <span class="badge">{% translate "padrão" %}</span>{% endif %}
+          {% if pseud.description %}<p class="muted">{{ pseud.description|truncatewords:30 }}</p>{% endif %}
+          <div class="actions">
+            <a href="{% url 'accounts:pseud_edit' pseud.pk %}">{% translate "Editar" %}</a>
+            {% if not pseud.is_default %}
+              <form method="post" action="{% url 'accounts:pseud_make_default' pseud.pk %}" class="inline-form">
+                {% csrf_token %}<button type="submit" class="link-button">{% translate "Tornar padrão" %}</button>
+              </form>
+              <a href="{% url 'accounts:pseud_delete' pseud.pk %}" class="danger-link">{% translate "Excluir" %}</a>
+            {% endif %}
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a class="button" href="{% url 'accounts:pseud_create' %}">{% translate "Novo pseudônimo" %}</a></p>
+{% endblock %}

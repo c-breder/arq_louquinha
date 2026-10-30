@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Mensagens" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Mensagens" %}</h1>
+  <p><a class="button primary" href="{% url 'messaging:new' %}">{% translate "Nova mensagem" %}</a></p>
+  <ul class="inbox">
+    {% for conversation, other, unread in rows %}
+      <li class="{% if unread %}unread{% endif %}">
+        <a href="{% url 'messaging:thread' conversation.pk %}">{{ other.username }}</a>
+        {% if unread %}<span class="badge">{% translate "nova" %}</span>{% endif %}
+        <span class="muted">{{ conversation.last_message_at|date:"SHORT_DATETIME_FORMAT" }}</span>
+      </li>
+    {% empty %}
+      <li>{% translate "Nenhuma conversa ainda." %}</li>
+    {% endfor %}
+  </ul>
+  <p class="muted">{% translate "Não quer receber mensagens? Desligue em Preferências." %}</p>
+{% endblock %}

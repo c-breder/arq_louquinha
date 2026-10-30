@@ -1,0 +1,2240 @@
+# Tradução da interface para inglês (os textos-fonte estão em português).
+msgid ""
+msgstr ""
+"Project-Id-Version: arq_louquinha\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-30 03:31-0300\n"
+"PO-Revision-Date: 2026-10-29 23:45-0300\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Aprovação"
+msgstr "Approval"
+
+msgid "Mídia e preferências"
+msgstr "Media and preferences"
+
+msgid "Aprovar contas selecionadas"
+msgstr "Approve selected accounts"
+
+#, python-format
+msgid "%d conta aprovada."
+msgid_plural "%d contas aprovadas."
+msgstr[0] "%d account approved."
+msgstr[1] "%d accounts approved."
+
+msgid "Recusar contas selecionadas (desativa)"
+msgstr "Reject selected accounts (deactivates them)"
+
+#, python-format
+msgid "%d conta recusada."
+msgid_plural "%d contas recusadas."
+msgstr[0] "%d account rejected."
+msgstr[1] "%d accounts rejected."
+
+#, python-format
+msgid "Nível de mídia alterado em %d conta."
+msgid_plural "Nível de mídia alterado em %d contas."
+msgstr[0] "Media level changed for %d account."
+msgstr[1] "Media level changed for %d accounts."
+
+msgid "Dar papel de wrangler"
+msgstr "Grant wrangler role"
+
+msgid "Papel de wrangler concedido."
+msgstr "Wrangler role granted."
+
+msgid "Retirar papel de wrangler"
+msgstr "Remove wrangler role"
+
+msgid "Papel de wrangler retirado."
+msgstr "Wrangler role removed."
+
+msgid "Nível de mídia: Básico"
+msgstr "Media level: Basic"
+
+msgid "Nível de mídia: Imagens"
+msgstr "Media level: Images"
+
+msgid "Contas"
+msgstr "Accounts"
+
+msgid "Confirmo que tenho 18 anos ou mais."
+msgstr "I confirm that I am 18 or older."
+
+msgid "Avatar"
+msgstr "Avatar"
+
+msgid "Remover avatar atual"
+msgstr "Remove current avatar"
+
+#, python-format
+msgid ""
+"JPG, PNG, GIF ou WebP, até %(max)d MB. Fica quadrado, em %(size)d×%(size)d."
+msgstr ""
+"JPG, PNG, GIF or WebP, up to %(max)d MB. It becomes a %(size)d×%(size)d "
+"square."
+
+msgid "Você já tem um pseudônimo com esse nome."
+msgstr "You already have a pseud with this name."
+
+#, python-format
+msgid "A imagem passa de %(max)d MB."
+msgstr "The image is larger than %(max)d MB."
+
+msgid "Deixar minhas obras no arquivo, sem meu nome (conta órfã)"
+msgstr "Keep my works in the archive, without my name (orphan account)"
+
+msgid "Apagar minhas obras junto com a conta"
+msgstr "Delete my works along with my account"
+
+msgid "O que fazer com suas obras?"
+msgstr "What should happen to your works?"
+
+msgid "Digite seu nome de usuário para confirmar"
+msgstr "Type your username to confirm"
+
+msgid "Senha"
+msgstr "Password"
+
+msgid "O nome não confere."
+msgstr "The name does not match."
+
+msgid "Senha incorreta."
+msgstr "Wrong password."
+
+msgid "Básico (só avatar)"
+msgstr "Basic (avatar only)"
+
+msgid "Imagens (avatar e imagens no texto)"
+msgstr "Images (avatar and images in text)"
+
+msgid "e-mail"
+msgstr "email"
+
+msgid "aprovada"
+msgstr "approved"
+
+msgid "aprovada em"
+msgstr "approved at"
+
+msgid "aprovada por"
+msgstr "approved by"
+
+msgid "confirmou 18+ em"
+msgstr "confirmed 18+ at"
+
+msgid "nível de mídia"
+msgstr "media level"
+
+msgid "idioma da interface"
+msgstr "interface language"
+
+msgid "esconder avisos"
+msgstr "hide warnings"
+
+msgid "ocultar obras explícitas"
+msgstr "hide explicit works"
+
+msgid "aceitar mensagens privadas"
+msgstr "accept private messages"
+
+msgid "usuário"
+msgstr "user"
+
+msgid "usuários"
+msgstr "users"
+
+msgid "nome"
+msgstr "name"
+
+msgid "descrição"
+msgstr "description"
+
+msgid "avatar"
+msgstr "avatar"
+
+msgid "padrão"
+msgstr "default"
+
+msgid "criado em"
+msgstr "created at"
+
+msgid "pseudônimo"
+msgstr "pseud"
+
+msgid "pseudônimos"
+msgstr "pseuds"
+
+msgid "Sua conta foi aprovada"
+msgstr "Your account has been approved"
+
+#, python-format
+msgid ""
+"Olá, %(username)s!\n"
+"\n"
+"Sua conta no %(site)s foi aprovada. Você já pode entrar e usar o site."
+msgstr ""
+"Hi, %(username)s!\n"
+"\n"
+"Your account on %(site)s has been approved. You can now log in and use the site."
+
+msgid "Preferências salvas."
+msgstr "Preferences saved."
+
+msgid "Pseudônimo salvo."
+msgstr "Pseud saved."
+
+msgid "O pseudônimo padrão não pode ser excluído."
+msgstr "The default pseud cannot be deleted."
+
+msgid ""
+"Pseudônimo excluído. As obras dele passaram para o seu pseudônimo padrão."
+msgstr "Pseud deleted. Its works were moved to your default pseud."
+
+msgid "Pseudônimo padrão alterado."
+msgstr "Default pseud changed."
+
+msgid "Sua conta foi excluída."
+msgstr "Your account has been deleted."
+
+msgid "Coleções e desafios"
+msgstr "Collections and challenges"
+
+msgid "Prazo (opcional)"
+msgstr "Deadline (optional)"
+
+msgid "Aparece no endereço: /colecoes/<este-nome>/. Letras, números e hífen."
+msgstr ""
+"Shown in the address: /colecoes/<this-name>/. Letters, numbers and hyphens."
+
+msgid "Esse endereço é reservado."
+msgstr "This address is reserved."
+
+msgid "Prompt longo demais."
+msgstr "Prompt too long."
+
+msgid "Endereço da coleção"
+msgstr "Collection address"
+
+msgid "Coleção não encontrada."
+msgstr "Collection not found."
+
+msgid "Esta coleção não está aceitando obras."
+msgstr "This collection is not accepting works."
+
+msgid "Coleção"
+msgstr "Collection"
+
+msgid "Desafio de prompts"
+msgstr "Prompt meme"
+
+msgid "endereço"
+msgstr "address"
+
+msgid "título"
+msgstr "title"
+
+msgid "tipo"
+msgstr "type"
+
+msgid "dono"
+msgstr "owner"
+
+msgid "moderadores"
+msgstr "moderators"
+
+msgid "aceitando obras"
+msgstr "accepting works"
+
+msgid "obras precisam de aprovação"
+msgstr "works need approval"
+
+msgid "prazo"
+msgstr "deadline"
+
+msgid "criada em"
+msgstr "created at"
+
+msgid "coleção"
+msgstr "collection"
+
+msgid "coleções"
+msgstr "collections"
+
+msgid "autor"
+msgstr "creator"
+
+msgid "prompt"
+msgstr "prompt"
+
+msgid "prompts"
+msgstr "prompts"
+
+msgid "Aguardando aprovação"
+msgstr "Awaiting approval"
+
+msgid "Aprovada"
+msgstr "Approved"
+
+msgid "Recusada"
+msgstr "Rejected"
+
+msgid "obra"
+msgstr "work"
+
+msgid "responde ao prompt"
+msgstr "fills prompt"
+
+msgid "situação"
+msgstr "status"
+
+msgid "enviada em"
+msgstr "uploaded at"
+
+msgid "obra na coleção"
+msgstr "work in collection"
+
+msgid "obras nas coleções"
+msgstr "works in collections"
+
+msgid "Coleção salva."
+msgstr "Collection saved."
+
+msgid "Decisão registrada."
+msgstr "Decision saved."
+
+msgid "Prompt enviado."
+msgstr "Prompt submitted."
+
+msgid "A obra já está nessa coleção."
+msgstr "The work is already in this collection."
+
+msgid "Obra enviada. Ela aparece depois que a moderação da coleção aprovar."
+msgstr ""
+"Work submitted. It will show up once the collection moderators approve it."
+
+#, python-format
+msgid "Obra adicionada à coleção “%(title)s”."
+msgstr "Work added to the collection “%(title)s”."
+
+msgid "Obra removida da coleção."
+msgstr "Work removed from the collection."
+
+msgid "Arquivo de imagem inválido."
+msgstr "Invalid image file."
+
+msgid "Ocultar comentários (moderação)"
+msgstr "Hide comments (moderation)"
+
+msgid "Reexibir comentários"
+msgstr "Unhide comments"
+
+msgid "Interações"
+msgstr "Interactions"
+
+msgid "Comentar como"
+msgstr "Comment as"
+
+msgid "Comentário"
+msgstr "Comment"
+
+msgid "Comentário longo demais."
+msgstr "Comment too long."
+
+msgid "Escreva alguma coisa."
+msgstr "Write something."
+
+msgid "Suas tags"
+msgstr "Your tags"
+
+msgid "Separe por vírgula."
+msgstr "Separate with commas."
+
+msgid "Salvar como"
+msgstr "Save as"
+
+msgid "Notas"
+msgstr "Notes"
+
+msgid "chave do visitante"
+msgstr "guest key"
+
+msgid "kudos"
+msgstr "kudos"
+
+msgid "visitante"
+msgstr "guest"
+
+msgid "capítulo"
+msgstr "chapter"
+
+msgid "resposta a"
+msgstr "reply to"
+
+msgid "texto"
+msgstr "text"
+
+msgid "editado em"
+msgstr "edited at"
+
+msgid "oculto pela moderação"
+msgstr "hidden by moderation"
+
+msgid "apagado"
+msgstr "deleted"
+
+msgid "comentário"
+msgstr "comment"
+
+msgid "comentários"
+msgstr "comments"
+
+msgid "notas"
+msgstr "notes"
+
+msgid "tags"
+msgstr "tags"
+
+msgid "privado"
+msgstr "private"
+
+msgid "recomendação"
+msgstr "rec"
+
+msgid "atualizado em"
+msgstr "updated at"
+
+msgid "bookmark"
+msgstr "bookmark"
+
+msgid "bookmarks"
+msgstr "bookmarks"
+
+#, python-format
+msgid "Novo comentário em “%(title)s”"
+msgstr "New comment on “%(title)s”"
+
+#, python-format
+msgid ""
+"%(name)s comentou:\n"
+"\n"
+"%(text)s\n"
+"\n"
+"Ver no site: %(path)s"
+msgstr ""
+"%(name)s commented:\n"
+"\n"
+"%(text)s\n"
+"\n"
+"See it on the site: %(path)s"
+
+msgid "Obrigado pelos kudos! 💛"
+msgstr "Thank you for the kudos! 💛"
+
+msgid "Você já deixou kudos nesta obra."
+msgstr "You have already left kudos on this work."
+
+msgid "Você não pode deixar kudos na sua própria obra."
+msgstr "You cannot leave kudos on your own work."
+
+msgid "Você comentou demais na última hora. Tente mais tarde."
+msgstr "You commented too much in the last hour. Try again later."
+
+msgid "Comentário publicado."
+msgstr "Comment posted."
+
+msgid "Comentário apagado."
+msgstr "Comment deleted."
+
+msgid "Esse pseudônimo já salvou esta obra."
+msgstr "This pseud has already bookmarked this work."
+
+msgid "Bookmark salvo."
+msgstr "Bookmark saved."
+
+msgid "Bookmark removido."
+msgstr "Bookmark removed."
+
+#, python-format
+msgid "Bookmarks de %(name)s"
+msgstr "%(name)s’s bookmarks"
+
+#, python-format
+msgid "Bookmarks de “%(title)s”"
+msgstr "Bookmarks of “%(title)s”"
+
+msgid "Mensagens privadas"
+msgstr "Private messages"
+
+msgid "conversa"
+msgstr "conversation"
+
+msgid "conversas"
+msgstr "conversations"
+
+msgid "mensagem"
+msgstr "message"
+
+msgid "oculta pela moderação"
+msgstr "hidden by moderation"
+
+msgid "mensagens"
+msgstr "messages"
+
+msgid "Mensagem"
+msgstr "Message"
+
+msgid "Para (nome de usuário)"
+msgstr "To (username)"
+
+msgid "Não encontramos uma conta ativa com esse nome."
+msgstr "We couldn't find an active account with that name."
+
+msgid "Você não pode mandar mensagem para si mesmo(a)."
+msgstr "You cannot message yourself."
+
+msgid "Essa pessoa não aceita mensagens privadas."
+msgstr "This person does not accept private messages."
+
+msgid "Você mandou mensagens demais na última hora. Tente mais tarde."
+msgstr "You sent too many messages in the last hour. Try again later."
+
+msgid "Essa pessoa não aceita mais mensagens privadas."
+msgstr "This person no longer accepts private messages."
+
+msgid "conteúdo"
+msgstr "content"
+
+msgid "(apagado)"
+msgstr "(deleted)"
+
+msgid "Ocultar o conteúdo denunciado"
+msgstr "Hide the reported content"
+
+#, python-format
+msgid "%(count)d conteúdo(s) ocultado(s)."
+msgstr "%(count)d item(s) hidden."
+
+msgid "Reexibir o conteúdo denunciado"
+msgstr "Unhide the reported content"
+
+#, python-format
+msgid "%(count)d conteúdo(s) reexibido(s)."
+msgstr "%(count)d item(s) unhidden."
+
+msgid "Suspender quem publicou"
+msgstr "Suspend whoever posted it"
+
+#, python-format
+msgid "%(count)d denúncia(s) com conta suspensa."
+msgstr "%(count)d report(s) with a suspended account."
+
+msgid "Marcar como resolvida"
+msgstr "Mark as resolved"
+
+msgid "Denúncias resolvidas."
+msgstr "Reports resolved."
+
+msgid "Descartar (sem problema)"
+msgstr "Dismiss (no problem)"
+
+msgid "Denúncias descartadas."
+msgstr "Reports dismissed."
+
+msgid "Moderação"
+msgstr "Moderation"
+
+msgid "Spam"
+msgstr "Spam"
+
+msgid "Assédio ou ataque"
+msgstr "Harassment or abuse"
+
+msgid "Classificação, avisos ou tags incorretos"
+msgstr "Wrong rating, warnings or tags"
+
+msgid "Plágio ou violação de direitos autorais"
+msgstr "Plagiarism or copyright infringement"
+
+msgid "Conteúdo ilegal"
+msgstr "Illegal content"
+
+msgid "Outro motivo"
+msgstr "Other reason"
+
+msgid "Aberta"
+msgstr "Open"
+
+msgid "Resolvida"
+msgstr "Resolved"
+
+msgid "Descartada"
+msgstr "Dismissed"
+
+msgid "denunciante"
+msgstr "reporter"
+
+msgid "motivo"
+msgstr "reason"
+
+msgid "detalhes"
+msgstr "details"
+
+msgid "tratada por"
+msgstr "handled by"
+
+msgid "tratada em"
+msgstr "handled at"
+
+msgid "observação da moderação"
+msgstr "moderation note"
+
+msgid "denúncia"
+msgstr "report"
+
+msgid "denúncias"
+msgstr "reports"
+
+msgid "Aprovou conta"
+msgstr "Approved account"
+
+msgid "Recusou conta"
+msgstr "Rejected account"
+
+msgid "Mudou nível de mídia"
+msgstr "Changed media level"
+
+msgid "Ocultou"
+msgstr "Hid"
+
+msgid "Reexibiu"
+msgstr "Unhid"
+
+msgid "Removeu"
+msgstr "Removed"
+
+msgid "Advertiu"
+msgstr "Warned"
+
+msgid "Suspendeu"
+msgstr "Suspended"
+
+msgid "Retirou suspensão"
+msgstr "Lifted suspension"
+
+msgid "Tornou tag canônica"
+msgstr "Made tag canonical"
+
+msgid "Tirou tag de canônica"
+msgstr "Made tag non-canonical"
+
+msgid "Tornou tag sinônimo"
+msgstr "Made tag a synonym"
+
+msgid "Desfez sinônimo"
+msgstr "Removed synonym"
+
+msgid "Adicionou metatag"
+msgstr "Added metatag"
+
+msgid "Removeu metatag"
+msgstr "Removed metatag"
+
+msgid "Ligou tag a fandom"
+msgstr "Linked tag to fandom"
+
+msgid "Desligou tag de fandom"
+msgstr "Unlinked tag from fandom"
+
+msgid "moderador"
+msgstr "moderator"
+
+msgid "ação"
+msgstr "action"
+
+msgid "observação"
+msgstr "note"
+
+msgid "feita em"
+msgstr "done at"
+
+msgid "ação de moderação"
+msgstr "moderation action"
+
+msgid "histórico de moderação"
+msgstr "moderation log"
+
+msgid "Denúncia enviada. Obrigado por avisar; a moderação vai analisar."
+msgstr "Report sent. Thanks for letting us know; moderation will review it."
+
+msgid "Tags"
+msgstr "Tags"
+
+msgid "Fandom"
+msgstr "Fandom"
+
+msgid "Relacionamento"
+msgstr "Relationship"
+
+msgid "Personagem"
+msgstr "Character"
+
+msgid "Tag livre"
+msgstr "Freeform"
+
+msgid "canônica"
+msgstr "canonical"
+
+msgid "sinônimo de"
+msgstr "synonym of"
+
+msgid "fandoms"
+msgstr "fandoms"
+
+msgid "usos"
+msgstr "uses"
+
+msgid "tag"
+msgstr "tag"
+
+msgid "Pode fazer wrangling de tags"
+msgstr "Can wrangle tags"
+
+msgid "Uma tag canônica não pode ser sinônimo de outra."
+msgstr "A canonical tag cannot be a synonym of another tag."
+
+msgid "Uma tag não pode ser sinônimo de si mesma."
+msgstr "A tag cannot be a synonym of itself."
+
+msgid "O sinônimo precisa apontar para uma tag canônica."
+msgstr "A synonym must point to a canonical tag."
+
+msgid "O sinônimo precisa ser do mesmo tipo da tag canônica."
+msgstr "A synonym must be of the same type as its canonical tag."
+
+msgid "metatag"
+msgstr "metatag"
+
+msgid "subtag"
+msgstr "subtag"
+
+msgid "metatags"
+msgstr "metatags"
+
+msgid "Metatag e subtag precisam ser canônicas."
+msgstr "Metatag and subtag must both be canonical."
+
+msgid "Metatag e subtag precisam ser do mesmo tipo."
+msgstr "Metatag and subtag must be of the same type."
+
+#, python-format
+msgid "A tag \"%(name)s…\" passa de %(max)d caracteres."
+msgstr "The tag \"%(name)s…\" is longer than %(max)d characters."
+
+#, python-format
+msgid "A tag \"%(name)s\" já existe como %(type)s."
+msgstr "The tag \"%(name)s\" already exists as %(type)s."
+
+msgid "Sem decisão"
+msgstr "Unwrangled"
+
+msgid "Canônicas sem fandom"
+msgstr "Canonical without fandom"
+
+msgid "Canônicas"
+msgstr "Canonical"
+
+msgid "Sinônimos"
+msgstr "Synonyms"
+
+msgid "Selecione pelo menos uma tag."
+msgstr "Select at least one tag."
+
+#, python-format
+msgid "%(count)d tag(s) atualizada(s)."
+msgstr "%(count)d tag(s) updated."
+
+msgid "Tag atualizada."
+msgstr "Tag updated."
+
+#, python-format
+msgid "Tag “%(name)s” não encontrada."
+msgstr "Tag “%(name)s” not found."
+
+#, python-format
+msgid "“%(name)s” não é canônica."
+msgstr "“%(name)s” is not canonical."
+
+#, python-format
+msgid "“%(name)s” é do tipo %(type)s."
+msgstr "“%(name)s” is a %(type)s tag."
+
+#, python-format
+msgid "“%(name)s” é sinônimo de outra tag; desfaça o sinônimo antes."
+msgstr "“%(name)s” is a synonym of another tag; remove the synonym first."
+
+#, python-format
+msgid ""
+"“%(name)s” tem sinônimos, metatags, subtags ou tags ligadas; remova essas "
+"ligações antes."
+msgstr ""
+"“%(name)s” has synonyms, metatags, subtags or linked tags; remove those "
+"links first."
+
+msgid "O sinônimo precisa apontar para uma tag canônica do mesmo tipo."
+msgstr "A synonym must point to a canonical tag of the same type."
+
+#, python-format
+msgid "“%(meta)s” já está abaixo de “%(sub)s”; isso criaria um ciclo."
+msgstr "“%(meta)s” is already below “%(sub)s”; that would create a loop."
+
+msgid "Um fandom não é ligado a outro fandom."
+msgstr "A fandom cannot be linked to another fandom."
+
+#, python-format
+msgid "“%(name)s” é sinônimo; ligue a tag canônica ao fandom."
+msgstr ""
+"“%(name)s” is a synonym; link the canonical tag to the fandom instead."
+
+#, python-format
+msgid "“%(name)s” não é um fandom canônico."
+msgstr "“%(name)s” is not a canonical fandom."
+
+msgid "Muitos pedidos"
+msgstr "Too many requests"
+
+msgid "Calma aí!"
+msgstr "Slow down!"
+
+msgid ""
+"Você fez muitos pedidos em pouco tempo. Espere um minuto e tente de novo."
+msgstr ""
+"You made too many requests in a short time. Wait a minute and try again."
+
+msgid "Excluir minha conta"
+msgstr "Delete my account"
+
+msgid ""
+"Isso não pode ser desfeito. Seus pseudônimos, bookmarks, kudos e "
+"preferências serão apagados. Seus comentários continuam, mas aparecem como "
+"“conta excluída”."
+msgstr ""
+"This cannot be undone. Your pseuds, bookmarks, kudos and preferences will be"
+" deleted. Your comments stay, but show as “deleted account”."
+
+msgid ""
+"Obras com outros coautores continuam no ar com o nome deles; só o seu sai."
+msgstr ""
+"Works with other co-creators stay up under their names; only yours is "
+"removed."
+
+msgid "Antes, baixe uma cópia dos seus dados."
+msgstr "First, download a copy of your data."
+
+msgid "Excluir minha conta para sempre"
+msgstr "Delete my account forever"
+
+msgid "Cancelar"
+msgstr "Cancel"
+
+msgid "Conta aguardando aprovação"
+msgstr "Account awaiting approval"
+
+msgid ""
+"Recebemos seu cadastro. Uma pessoa da equipe vai revisar sua conta e você "
+"receberá um e-mail quando ela for aprovada."
+msgstr ""
+"We received your sign-up. A team member will review your account and you "
+"will get an email once it is approved."
+
+msgid ""
+"Enquanto isso, você pode ajustar suas preferências e a segurança da conta."
+msgstr "Meanwhile, you can adjust your preferences and account security."
+
+msgid "Preferências"
+msgstr "Preferences"
+
+msgid "Trocar senha"
+msgstr "Change password"
+
+msgid "Salvar"
+msgstr "Save"
+
+msgid "Perfil"
+msgstr "Profile"
+
+msgid "Pseudônimos e avatares"
+msgstr "Pseuds and avatars"
+
+msgid "Ver meu perfil público"
+msgstr "View my public profile"
+
+msgid "Conta e segurança"
+msgstr "Account and security"
+
+msgid "Endereços de e-mail"
+msgstr "Email addresses"
+
+msgid "Verificação em duas etapas"
+msgstr "Two-factor authentication"
+
+msgid "Seus dados"
+msgstr "Your data"
+
+msgid "Baixar uma cópia dos meus dados (JSON)"
+msgstr "Download a copy of my data (JSON)"
+
+msgid "Excluir pseudônimo"
+msgstr "Delete pseud"
+
+#, python-format
+msgid ""
+"Tem certeza que quer excluir \"%(name)s\"? As obras, bookmarks e comentários"
+" dele passam para o seu pseudônimo padrão."
+msgstr ""
+"Are you sure you want to delete \"%(name)s\"? Its works, bookmarks and "
+"comments will move to your default pseud."
+
+msgid "Sim, excluir"
+msgstr "Yes, delete"
+
+msgid "Editar pseudônimo"
+msgstr "Edit pseud"
+
+msgid "Novo pseudônimo"
+msgstr "New pseud"
+
+msgid "Pseudônimos"
+msgstr "Pseuds"
+
+msgid ""
+"Você pode publicar com nomes diferentes. Todos ficam ligados à sua conta."
+msgstr ""
+"You can post under different names. They are all linked to your account."
+
+msgid "Editar"
+msgstr "Edit"
+
+msgid "Tornar padrão"
+msgstr "Make default"
+
+msgid "Excluir"
+msgstr "Delete"
+
+msgid "Pular para o conteúdo"
+msgstr "Skip to content"
+
+msgid "Abrir menu"
+msgstr "Open menu"
+
+msgid "Um arquivo de histórias."
+msgstr "An archive of stories."
+
+msgid "Principal"
+msgstr "Main"
+
+msgid "Início"
+msgstr "Home"
+
+msgid "Obras"
+msgstr "Works"
+
+msgid "Fandoms"
+msgstr "Fandoms"
+
+msgid "Coleções"
+msgstr "Collections"
+
+msgid "Buscar"
+msgstr "Search"
+
+msgid "Menu da conta"
+msgstr "Account menu"
+
+msgid "Entrar ou criar conta"
+msgstr "Log in or sign up"
+
+#, python-format
+msgid "Olá, %(name)s"
+msgstr "Hi, %(name)s"
+
+msgid "Nova obra"
+msgstr "New work"
+
+msgid "Importar obra"
+msgstr "Import work"
+
+msgid "Minhas obras"
+msgstr "My works"
+
+msgid "Mensagens"
+msgstr "Messages"
+
+#, python-format
+msgid "%(n)s convite"
+msgid_plural "%(n)s convites"
+msgstr[0] "%(n)s invitation"
+msgstr[1] "%(n)s invitations"
+
+msgid "Meu perfil"
+msgstr "My profile"
+
+msgid "Wrangling"
+msgstr "Wrangling"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Denúncias"
+msgstr "Reports"
+
+msgid "Sair"
+msgstr "Log out"
+
+msgid "Entrar"
+msgstr "Log in"
+
+msgid "Criar conta"
+msgstr "Sign up"
+
+msgid "Idioma"
+msgstr "Language"
+
+msgid "Trocar"
+msgstr "Change"
+
+msgid "Navegação lateral"
+msgstr "Side navigation"
+
+msgid "Navegar"
+msgstr "Browse"
+
+msgid "Mais"
+msgstr "More"
+
+msgid "Sobre"
+msgstr "About"
+
+msgid "Termos de Uso"
+msgstr "Terms of Use"
+
+msgid "Contato"
+msgstr "Contact"
+
+msgid "Rodapé"
+msgstr "Footer"
+
+msgid "Feito por alguém que também ama histórias."
+msgstr "Made by someone who also loves stories."
+
+msgid "por"
+msgstr "by"
+
+msgid "fechada"
+msgstr "closed"
+
+#, python-format
+msgid "prazo: %(when)s"
+msgstr "deadline: %(when)s"
+
+msgid "moderada"
+msgstr "moderated"
+
+msgid "Gerenciar obras"
+msgstr "Manage works"
+
+#, python-format
+msgid ""
+"Para participar, abra a edição da sua obra e adicione-a à coleção "
+"“%(slug)s”."
+msgstr ""
+"To take part, open your work’s edit page and add it to the collection "
+"“%(slug)s”."
+
+msgid "Prompts"
+msgstr "Prompts"
+
+#, python-format
+msgid "%(n)s resposta"
+msgid_plural "%(n)s respostas"
+msgstr[0] "%(n)s fill"
+msgstr[1] "%(n)s fills"
+
+msgid "número para responder:"
+msgstr "number to fill it:"
+
+msgid "Nenhum prompt ainda."
+msgstr "No prompts yet."
+
+msgid "Enviar prompt"
+msgstr "Submit prompt"
+
+msgid "Nenhuma obra ainda."
+msgstr "No works yet."
+
+msgid "Editar coleção"
+msgstr "Edit collection"
+
+msgid "Nova coleção"
+msgstr "New collection"
+
+msgid ""
+"Uma coleção reúne obras sobre um tema. Um desafio de prompts também tem uma "
+"lista de pedidos (prompts) que os autores podem responder, e pode ter prazo."
+msgstr ""
+"A collection gathers works on a theme. A prompt meme also has a list of "
+"requests (prompts) that creators can fill, and may have a deadline."
+
+msgid "Criar coleção ou desafio"
+msgstr "Create a collection or challenge"
+
+msgid "Título"
+msgstr "Title"
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "Situação"
+msgstr "Status"
+
+msgid "Fechada"
+msgstr "Closed"
+
+msgid "Nenhuma coleção ainda."
+msgstr "No collections yet."
+
+msgid "Obra"
+msgstr "Work"
+
+msgid "Prompt"
+msgstr "Prompt"
+
+msgid "Aprovar"
+msgstr "Approve"
+
+msgid "Recusar"
+msgstr "Decline"
+
+msgid "Nenhuma obra enviada ainda."
+msgstr "No works submitted yet."
+
+msgid "Buscar obras"
+msgstr "Search works"
+
+msgid "Buscar por título, autor, fandom, tag..."
+msgstr "Search by title, creator, fandom, tag..."
+
+msgid "Atalhos"
+msgstr "Shortcuts"
+
+msgid "Obras em destaque"
+msgstr "Featured works"
+
+msgid "Ver todas"
+msgstr "See all"
+
+msgid "Ainda não há obras publicadas."
+msgstr "No works posted yet."
+
+msgid "Navegue por..."
+msgstr "Browse by..."
+
+msgid "Encontre suas histórias favoritas por universo."
+msgstr "Find your favorite stories by universe."
+
+msgid "Obras organizadas em coleções especiais."
+msgstr "Works gathered in special collections."
+
+msgid "Filtre por temas, gêneros e muito mais."
+msgstr "Filter by themes, genres and more."
+
+msgid "Mais populares"
+msgstr "Most popular"
+
+msgid "As histórias mais queridas da comunidade."
+msgstr "The community's most loved stories."
+
+msgid "Últimas atualizações"
+msgstr "Latest updates"
+
+#, python-format
+msgid "Capítulo %(number)s"
+msgstr "Chapter %(number)s"
+
+#, python-format
+msgid "%(time)s atrás"
+msgstr "%(time)s ago"
+
+msgid "Nenhuma atualização ainda."
+msgstr "No updates yet."
+
+msgid "Editar esta página no admin"
+msgstr "Edit this page in the admin"
+
+msgid "Deixar kudos"
+msgstr "Leave kudos"
+
+msgid "Editar bookmark"
+msgstr "Edit bookmark"
+
+msgid "Bookmark"
+msgstr "Bookmark"
+
+msgid "Denunciar"
+msgstr "Report"
+
+msgid "e"
+msgstr "and"
+
+#, python-format
+msgid "%(n)s visitante"
+msgid_plural "%(n)s visitantes"
+msgstr[0] "%(n)s guest"
+msgstr[1] "%(n)s guests"
+
+msgid "deixaram kudos nesta obra."
+msgstr "left kudos on this work."
+
+#, python-format
+msgid "%(n)s comentário"
+msgid_plural "%(n)s comentários"
+msgstr[0] "%(n)s comment"
+msgstr[1] "%(n)s comments"
+
+msgid "conta excluída"
+msgstr "deleted account"
+
+msgid "editado"
+msgstr "edited"
+
+msgid "(comentário apagado)"
+msgstr "(deleted comment)"
+
+msgid "(comentário ocultado pela moderação)"
+msgstr "(comment hidden by moderation)"
+
+msgid "Responder"
+msgstr "Reply"
+
+msgid "Responder como"
+msgstr "Reply as"
+
+msgid "Resposta"
+msgstr "Reply"
+
+msgid "Apagar"
+msgstr "Delete"
+
+msgid "Comentar"
+msgstr "Comment"
+
+msgid "Entre"
+msgstr "Log in"
+
+msgid "para comentar."
+msgstr "to comment."
+
+msgid "Os comentários ficam na página de cada capítulo."
+msgstr "Comments are on each chapter page."
+
+msgid "Salvar bookmark"
+msgstr "Save bookmark"
+
+msgid "Remover bookmark"
+msgstr "Remove bookmark"
+
+#, python-format
+msgid "Salvo por %(name)s"
+msgstr "Bookmarked by %(name)s"
+
+msgid "Recomendação"
+msgstr "Rec"
+
+msgid "Privado"
+msgstr "Private"
+
+msgid "Nenhum bookmark ainda."
+msgstr "No bookmarks yet."
+
+msgid "Editar comentário"
+msgstr "Edit comment"
+
+msgid "Nova mensagem"
+msgstr "New message"
+
+msgid "nova"
+msgstr "new"
+
+msgid "Nenhuma conversa ainda."
+msgstr "No conversations yet."
+
+msgid "Não quer receber mensagens? Desligue em Preferências."
+msgstr "Prefer not to get messages? Turn them off in Preferences."
+
+msgid "Enviar"
+msgstr "Send"
+
+#, python-format
+msgid "Conversa com %(name)s"
+msgstr "Conversation with %(name)s"
+
+msgid "(mensagem ocultada pela moderação)"
+msgstr "(message hidden by moderation)"
+
+#, python-format
+msgid "Você está denunciando: “%(name)s”."
+msgstr "You are reporting: “%(name)s”."
+
+msgid ""
+"A moderação recebe a denúncia sem mostrar seu nome para a outra pessoa."
+msgstr ""
+"Moderation receives the report without showing your name to the other "
+"person."
+
+msgid "Enviar denúncia"
+msgstr "Send report"
+
+msgid "remover"
+msgstr "remove"
+
+msgid "Nenhuma."
+msgstr "None."
+
+msgid "Nenhum fandom organizado ainda."
+msgstr "No wrangled fandoms yet."
+
+msgid "sinônimo"
+msgstr "synonym"
+
+msgid "ainda não organizada"
+msgstr "not wrangled yet"
+
+#, python-format
+msgid "usada em %(n)s obra"
+msgid_plural "usada em %(n)s obras"
+msgstr[0] "used in %(n)s work"
+msgstr[1] "used in %(n)s works"
+
+msgid "Fazer wrangling"
+msgstr "Wrangle"
+
+msgid "Esta tag é sinônimo de"
+msgstr "This tag is a synonym of"
+
+msgid "As obras abaixo incluem todas as variações."
+msgstr "The works below include every variation."
+
+msgid "Metatags"
+msgstr "Metatags"
+
+msgid "Subtags"
+msgstr "Subtags"
+
+msgid "Filtrar estas obras"
+msgstr "Filter these works"
+
+msgid "Nenhuma obra com esta tag ainda."
+msgstr "No works with this tag yet."
+
+msgid "Nome"
+msgstr "Name"
+
+msgid "Todos"
+msgstr "All"
+
+msgid "Só canônicas"
+msgstr "Canonical only"
+
+msgid "Tag"
+msgstr "Tag"
+
+msgid "Nenhuma tag encontrada."
+msgstr "No tags found."
+
+msgid "Voltar ao wrangling"
+msgstr "Back to wrangling"
+
+msgid "sem decisão"
+msgstr "unwrangled"
+
+msgid "Ver página pública"
+msgstr "View public page"
+
+msgid "Tornar canônica"
+msgstr "Make canonical"
+
+msgid "Deixar de ser canônica"
+msgstr "Make non-canonical"
+
+msgid "Desfazer sinônimo"
+msgstr "Remove synonym"
+
+msgid "Juntar em outra canônica (vira sinônimo dela)"
+msgstr "Merge into another canonical (becomes its synonym)"
+
+msgid "Tornar sinônimo de"
+msgstr "Make synonym of"
+
+msgid "Aplicar"
+msgstr "Apply"
+
+msgid "Metatags (mais amplas)"
+msgstr "Metatags (broader)"
+
+msgid "Adicionar metatag"
+msgstr "Add metatag"
+
+msgid "Adicionar"
+msgstr "Add"
+
+msgid "Subtags (mais específicas)"
+msgstr "Subtags (more specific)"
+
+msgid "Adicionar subtag"
+msgstr "Add subtag"
+
+msgid "Ligar ao fandom"
+msgstr "Link to fandom"
+
+msgid "Ligar"
+msgstr "Link"
+
+msgid ""
+"Organize as tags: escolha as canônicas, ligue sinônimos e associe "
+"personagens e relacionamentos aos fandoms. As mais usadas aparecem primeiro."
+msgstr ""
+"Organize tags: choose canonicals, link synonyms and attach characters and "
+"relationships to fandoms. The most used come first."
+
+msgid "Tipos de tag"
+msgstr "Tag types"
+
+msgid "Filtrar"
+msgstr "Filter"
+
+msgid "Selecionar"
+msgstr "Select"
+
+msgid "Detalhes"
+msgstr "Details"
+
+msgid "Nada por aqui. 🎉"
+msgstr "Nothing here. 🎉"
+
+msgid "Com as selecionadas"
+msgstr "With the selected tags"
+
+msgid "Tornar canônicas"
+msgstr "Make canonical"
+
+msgid "Tornar sinônimos de"
+msgstr "Make synonyms of"
+
+msgid "Concluída"
+msgstr "Complete"
+
+msgid "Em andamento"
+msgstr "In progress"
+
+#, python-format
+msgid "%(n)s capítulo"
+msgid_plural "%(n)s capítulos"
+msgstr[0] "%(n)s chapter"
+msgstr[1] "%(n)s chapters"
+
+msgid "Kudos"
+msgstr "Kudos"
+
+msgid "Palavras"
+msgstr "Words"
+
+msgid "Capítulos"
+msgstr "Chapters"
+
+msgid "Acessos"
+msgstr "Hits"
+
+msgid "Bookmarks"
+msgstr "Bookmarks"
+
+msgid "Comentários"
+msgstr "Comments"
+
+msgid "Atualizada"
+msgstr "Updated"
+
+msgid "Páginas"
+msgstr "Pages"
+
+msgid "Anterior"
+msgstr "Previous"
+
+#, python-format
+msgid "Página %(number)s de %(total)s"
+msgstr "Page %(number)s of %(total)s"
+
+msgid "Próxima"
+msgstr "Next"
+
+msgid "Publicação"
+msgstr "Publishing"
+
+msgid "Só é usado no botão “Agendar”. Horário de Brasília."
+msgstr "Only used by the “Schedule” button. Brasília time."
+
+msgid "Aviso de conteúdo adulto"
+msgstr "Adult content warning"
+
+#, python-format
+msgid ""
+"“%(title)s” tem a classificação %(rating)s e pode conter conteúdo adulto."
+msgstr "“%(title)s” is rated %(rating)s and may contain adult content."
+
+msgid "Continue só se você tiver 18 anos ou mais."
+msgstr "Only continue if you are 18 or older."
+
+msgid "Tenho 18 anos ou mais, continuar"
+msgstr "I am 18 or older, continue"
+
+msgid "Voltar"
+msgstr "Go back"
+
+msgid "Editar capítulo"
+msgstr "Edit chapter"
+
+msgid "Novo capítulo"
+msgstr "New chapter"
+
+#, python-format
+msgid "Editar capítulo %(number)s"
+msgstr "Edit chapter %(number)s"
+
+msgid "Excluir capítulo"
+msgstr "Delete chapter"
+
+msgid "Confirmar exclusão"
+msgstr "Confirm deletion"
+
+#, python-format
+msgid ""
+"Tem certeza que quer excluir o capítulo %(number)s de “%(title)s”? Isso não "
+"pode ser desfeito."
+msgstr ""
+"Are you sure you want to delete chapter %(number)s of “%(title)s”? This "
+"cannot be undone."
+
+msgid "Excluir obra"
+msgstr "Delete work"
+
+#, python-format
+msgid ""
+"Tem certeza que quer excluir “%(title)s” com todos os capítulos? Isso não "
+"pode ser desfeito, e também apaga a obra para os coautores."
+msgstr ""
+"Are you sure you want to delete “%(title)s” and all its chapters? This "
+"cannot be undone, and it also deletes the work for its co-creators."
+
+msgid "Importar obra (PDF do AO3)"
+msgstr "Import work (AO3 PDF)"
+
+msgid "No AO3, abra a sua obra e use “Download → PDF”."
+msgstr "On AO3, open your work and use “Download → PDF”."
+
+msgid ""
+"Envie o arquivo aqui. Título, classificação, avisos, tags, resumo, notas e "
+"capítulos são reconhecidos sozinhos."
+msgstr ""
+"Upload the file here. Title, rating, warnings, tags, summary, notes and "
+"chapters are detected automatically."
+
+msgid ""
+"A obra entra como rascunho, no seu pseudônimo padrão. Você revisa tudo antes"
+" de publicar."
+msgstr ""
+"The work is created as a draft under your default pseud. You review "
+"everything before posting."
+
+#, python-format
+msgid ""
+"Até %(max_mb)s MB. PDFs escaneados (foto das páginas) não têm texto e não "
+"podem ser importados. Itálico e negrito do PDF podem se perder."
+msgstr ""
+"Up to %(max_mb)s MB. Scanned PDFs (pictures of pages) have no text and "
+"cannot be imported. Italics and bold may be lost."
+
+msgid "Importar"
+msgstr "Import"
+
+msgid "Obra importada"
+msgstr "Imported work"
+
+msgid "Obra importada como rascunho"
+msgstr "Work imported as a draft"
+
+msgid "Confira o que foi reconhecido. Nada está público ainda."
+msgstr "Check what was detected. Nothing is public yet."
+
+msgid "Revisar dados da obra"
+msgstr "Review work details"
+
+msgid "Ver como leitores verão"
+msgstr "Preview as readers"
+
+msgid "Descartar importação"
+msgstr "Discard import"
+
+msgid "Classificação"
+msgstr "Rating"
+
+msgid "Avisos"
+msgstr "Warnings"
+
+msgid "Resumo"
+msgstr "Summary"
+
+#, python-format
+msgid "%(n)s capítulo reconhecido"
+msgid_plural "%(n)s capítulos reconhecidos"
+msgstr[0] "%(n)s chapter detected"
+msgstr[1] "%(n)s chapters detected"
+
+#, python-format
+msgid "%(n)s palavra"
+msgid_plural "%(n)s palavras"
+msgstr[0] "%(n)s word"
+msgstr[1] "%(n)s words"
+
+msgid "Convites de coautoria"
+msgstr "Co-creator invitations"
+
+#, python-format
+msgid "%(inviter)s convidou você para ser coautor(a) de “%(title)s”."
+msgstr "%(inviter)s invited you to be a co-creator of “%(title)s”."
+
+msgid "Aceitar"
+msgstr "Accept"
+
+msgid "Nenhum convite pendente."
+msgstr "No pending invitations."
+
+msgid "Você ainda não tem obras."
+msgstr "You have no works yet."
+
+msgid "Filtros"
+msgstr "Filters"
+
+msgid "Limpar"
+msgstr "Clear"
+
+#, python-format
+msgid "%(n)s obra encontrada"
+msgid_plural "%(n)s obras encontradas"
+msgstr[0] "%(n)s work found"
+msgstr[1] "%(n)s works found"
+
+msgid "Nenhuma obra com esses filtros."
+msgstr "No works match these filters."
+
+#, python-format
+msgid "%(n)s obra"
+msgid_plural "%(n)s obras"
+msgstr[0] "%(n)s work"
+msgstr[1] "%(n)s works"
+
+msgid "Completa"
+msgstr "Complete"
+
+msgid "Editar série"
+msgstr "Edit series"
+
+msgid "Ordem das obras"
+msgstr "Work order"
+
+msgid "Subir"
+msgstr "Move up"
+
+msgid "Descer"
+msgstr "Move down"
+
+msgid "Mandar mensagem"
+msgstr "Send message"
+
+msgid "Nenhuma obra publicada ainda."
+msgstr "No posted works yet."
+
+#, python-format
+msgid "Esta obra está agendada para %(when)s. Só os autores podem vê-la."
+msgstr "This work is scheduled for %(when)s. Only its creators can see it."
+
+msgid "Esta obra é um rascunho. Só os autores podem vê-la."
+msgstr "This work is a draft. Only its creators can see it."
+
+msgid "Esta obra foi ocultada pela moderação."
+msgstr "This work has been hidden by moderation."
+
+msgid "Editar obra"
+msgstr "Edit work"
+
+msgid "Editar este capítulo"
+msgstr "Edit this chapter"
+
+msgid "Adicionar capítulo"
+msgstr "Add chapter"
+
+msgid "Avisos ocultos (clique para ver)"
+msgstr "Warnings hidden (click to show)"
+
+msgid "Categorias"
+msgstr "Categories"
+
+msgid "Estatísticas"
+msgstr "Stats"
+
+msgid "Publicada"
+msgstr "Published"
+
+msgid "Série"
+msgstr "Series"
+
+msgid "Obra anterior da série"
+msgstr "Previous work in series"
+
+#, python-format
+msgid "Parte %(part)s de"
+msgstr "Part %(part)s of"
+
+msgid "Próxima obra da série"
+msgstr "Next work in series"
+
+msgid "Capítulo anterior"
+msgstr "Previous chapter"
+
+msgid "Ler por capítulo"
+msgstr "Read chapter by chapter"
+
+msgid "Obra completa"
+msgstr "Entire work"
+
+msgid "Próximo capítulo"
+msgstr "Next chapter"
+
+msgid "Notas finais"
+msgstr "End notes"
+
+msgid "Já publicou no AO3? Importe o PDF da obra."
+msgstr "Already posted on AO3? Import the work's PDF."
+
+msgid "Ver obra"
+msgstr "View work"
+
+msgid "Classificação e tags"
+msgstr "Rating and tags"
+
+msgid "Primeiro capítulo"
+msgstr "First chapter"
+
+msgid "Coautoria"
+msgstr "Co-creators"
+
+msgid "Convidar"
+msgstr "Invite"
+
+msgid "Sair da autoria"
+msgstr "Remove me as creator"
+
+msgid "Séries"
+msgstr "Series"
+
+#, python-format
+msgid "parte %(part)s"
+msgstr "part %(part)s"
+
+msgid "Esta obra não está em nenhuma série."
+msgstr "This work is not in any series."
+
+msgid "Adicionar à série"
+msgstr "Add to series"
+
+msgid "Esta obra não está em nenhuma coleção."
+msgstr "This work is not in any collection."
+
+msgid "Número do prompt (opcional)"
+msgstr "Prompt number (optional)"
+
+msgid "Adicionar à coleção"
+msgstr "Add to collection"
+
+msgid "Ocultar obras (moderação)"
+msgstr "Hide works (moderation)"
+
+msgid "Reexibir obras"
+msgstr "Unhide works"
+
+#, python-format
+msgid "Texto longo demais (máximo de %(max)d caracteres)."
+msgstr "Text too long (maximum %(max)d characters)."
+
+msgid "Separe as tags por vírgula."
+msgstr "Separate tags with commas."
+
+msgid "Salvar rascunho"
+msgstr "Save draft"
+
+msgid "Publicar"
+msgstr "Post"
+
+msgid "Agendar"
+msgstr "Schedule"
+
+msgid "Publicar em"
+msgstr "Post at"
+
+msgid "Escolha a data e a hora da publicação."
+msgstr "Choose the date and time to post."
+
+msgid "A data precisa estar no futuro."
+msgstr "The date must be in the future."
+
+msgid "Publicar como"
+msgstr "Post as"
+
+msgid "Relacionamentos"
+msgstr "Relationships"
+
+msgid "Personagens"
+msgstr "Characters"
+
+msgid "Tags livres"
+msgstr "Additional tags"
+
+#, python-format
+msgid "Use no máximo %(max)d tags."
+msgstr "Use at most %(max)d tags."
+
+#, python-format
+msgid "Capítulo longo demais (máximo de %(max)d caracteres)."
+msgstr "Chapter too long (maximum %(max)d characters)."
+
+msgid "O capítulo não pode ficar vazio."
+msgstr "The chapter cannot be empty."
+
+msgid "Nome de usuário da pessoa"
+msgstr "Their username"
+
+msgid "Essa pessoa já é autora ou já foi convidada."
+msgstr "This person is already a creator or has already been invited."
+
+msgid "PDF baixado do AO3"
+msgstr "PDF downloaded from AO3"
+
+#, python-format
+msgid "O arquivo passa de %(max)d MB."
+msgstr "The file is larger than %(max)d MB."
+
+msgid "Esse arquivo não é um PDF."
+msgstr "This file is not a PDF."
+
+msgid "Muitas importações na última hora. Tente mais tarde."
+msgstr "Too many imports in the last hour. Try again later."
+
+#, python-format
+msgid "O PDF tem páginas demais (máximo de %(max)d)."
+msgstr "The PDF has too many pages (maximum %(max)d)."
+
+msgid "Não consegui ler esse arquivo como PDF."
+msgstr "Could not read this file as a PDF."
+
+msgid ""
+"O PDF não tem texto para ler (talvez seja escaneado, como uma foto das "
+"páginas)."
+msgstr ""
+"The PDF has no text to read (it may be scanned, like a picture of the "
+"pages)."
+
+msgid "Não achei os avisos do AO3; marquei “Autor optou por não usar avisos”."
+msgstr ""
+"No AO3 warnings found; marked “Creator Chose Not To Use Archive Warnings”."
+
+msgid ""
+"Séries e coleções do AO3 não são importadas; adicione aqui depois, se "
+"quiser."
+msgstr ""
+"AO3 series and collections are not imported; add them here later if you "
+"like."
+
+msgid ""
+"Não reconheci o formato do AO3: importei o texto inteiro como um capítulo. "
+"Confira tudo na revisão."
+msgstr ""
+"AO3 format not recognized: the whole text was imported as one chapter. Check"
+" everything in the review."
+
+msgid "Não achei o texto da obra nesse PDF."
+msgstr "Could not find the work's text in this PDF."
+
+msgid "Não achei o fandom. Adicione na revisão antes de publicar."
+msgstr "No fandom found. Add one in the review before posting."
+
+msgid "Rascunho"
+msgstr "Draft"
+
+msgid "Agendada"
+msgstr "Scheduled"
+
+msgid "Público geral"
+msgstr "General Audiences"
+
+msgid "Adolescentes e acima"
+msgstr "Teen And Up Audiences"
+
+msgid "Maduro"
+msgstr "Mature"
+
+msgid "Explícito"
+msgstr "Explicit"
+
+msgid "Sem classificação"
+msgstr "Not Rated"
+
+msgid "Autor optou por não usar avisos"
+msgstr "Creator Chose Not To Use Archive Warnings"
+
+msgid "Descrições gráficas de violência"
+msgstr "Graphic Depictions Of Violence"
+
+msgid "Morte de personagem principal"
+msgstr "Major Character Death"
+
+msgid "Nenhum aviso se aplica"
+msgstr "No Archive Warnings Apply"
+
+msgid "Estupro/Não consensual"
+msgstr "Rape/Non-Con"
+
+msgid "Sexo envolvendo menores"
+msgstr "Underage Sex"
+
+msgid "Outra"
+msgstr "Other"
+
+msgid "resumo"
+msgstr "summary"
+
+msgid "notas iniciais"
+msgstr "beginning notes"
+
+msgid "notas finais"
+msgstr "end notes"
+
+msgid "idioma"
+msgstr "language"
+
+msgid "classificação"
+msgstr "rating"
+
+msgid "avisos"
+msgstr "warnings"
+
+msgid "categorias"
+msgstr "categories"
+
+msgid "autores"
+msgstr "creators"
+
+msgid "completa"
+msgstr "complete"
+
+msgid "capítulos previstos"
+msgstr "expected chapters"
+
+msgid "só para usuários logados"
+msgstr "logged-in users only"
+
+msgid "publicar em"
+msgstr "publish at"
+
+msgid "publicada em"
+msgstr "published at"
+
+msgid "atualizada em"
+msgstr "updated at"
+
+msgid "palavras"
+msgstr "words"
+
+msgid "acessos"
+msgstr "hits"
+
+msgid "obras"
+msgstr "works"
+
+msgid "Convite pendente"
+msgstr "Invitation pending"
+
+msgid "Aceito"
+msgstr "Accepted"
+
+msgid "convidado por"
+msgstr "invited by"
+
+msgid "autoria"
+msgstr "authorship"
+
+msgid "autorias"
+msgstr "authorships"
+
+msgid "posição"
+msgstr "position"
+
+msgid "publicado em"
+msgstr "published at"
+
+msgid "capítulos"
+msgstr "chapters"
+
+msgid "série"
+msgstr "series"
+
+msgid "séries"
+msgstr "series"
+
+msgid "arquivo"
+msgstr "file"
+
+msgid "largura"
+msgstr "width"
+
+msgid "altura"
+msgstr "height"
+
+msgid "tamanho em bytes"
+msgstr "size in bytes"
+
+msgid "imagem"
+msgstr "image"
+
+msgid "imagens"
+msgstr "images"
+
+msgid "obra na série"
+msgstr "work in series"
+
+msgid "obras na série"
+msgstr "works in series"
+
+msgid "Atualização mais recente"
+msgstr "Date updated"
+
+msgid "Publicação mais recente"
+msgstr "Date posted"
+
+msgid "Relevância (busca por texto)"
+msgstr "Relevance (text search)"
+
+msgid "Mais kudos"
+msgstr "Most kudos"
+
+msgid "Mais acessos"
+msgstr "Most hits"
+
+msgid "Mais bookmarks"
+msgstr "Most bookmarks"
+
+msgid "Mais comentários"
+msgstr "Most comments"
+
+msgid "Mais palavras"
+msgstr "Most words"
+
+msgid "Título (A–Z)"
+msgstr "Title (A–Z)"
+
+msgid "Texto"
+msgstr "Text"
+
+msgid "Com as tags"
+msgstr "With tags"
+
+msgid "Sem as tags"
+msgstr "Without tags"
+
+msgid "Com os avisos"
+msgstr "With warnings"
+
+msgid "Qualquer"
+msgstr "Any"
+
+msgid "Completas"
+msgstr "Complete"
+
+msgid "Palavras (mínimo)"
+msgstr "Words (minimum)"
+
+msgid "Palavras (máximo)"
+msgstr "Words (maximum)"
+
+msgid "Atualizada desde"
+msgstr "Updated since"
+
+msgid "Atualizada até"
+msgstr "Updated until"
+
+msgid "Ordenar por"
+msgstr "Sort by"
+
+#, python-format
+msgid "Tags não encontradas: %(names)s"
+msgstr "Tags not found: %(names)s"
+
+msgid "Série existente"
+msgstr "Existing series"
+
+msgid "ou crie uma nova"
+msgstr "or create a new one"
+
+msgid "Escolha uma série ou dê um nome para a nova."
+msgstr "Choose a series or name a new one."
+
+msgid "Série salva."
+msgstr "Series saved."
+
+#, python-format
+msgid "Obra adicionada à série “%(title)s”."
+msgstr "Work added to the series “%(title)s”."
+
+msgid "Obra removida da série."
+msgstr "Work removed from series."
+
+msgid "Convite de coautoria"
+msgstr "Co-creator invitation"
+
+#, python-format
+msgid ""
+"Olá, %(username)s!\n"
+"\n"
+"%(inviter)s convidou você para ser coautor(a) de \"%(title)s\".\n"
+"Para aceitar ou recusar, acesse: %(path)s"
+msgstr ""
+"Hi, %(username)s!\n"
+"\n"
+"%(inviter)s invited you to be a co-creator of \"%(title)s\".\n"
+"To accept or decline, go to: %(path)s"
+
+msgid "Visual"
+msgstr "Visual"
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "Negrito"
+msgstr "Bold"
+
+msgid "Itálico"
+msgstr "Italic"
+
+msgid "Sublinhado"
+msgstr "Underline"
+
+msgid "Riscado"
+msgstr "Strikethrough"
+
+msgid "Parágrafo"
+msgstr "Paragraph"
+
+msgid "Citação"
+msgstr "Quote"
+
+msgid "Lista"
+msgstr "Bulleted list"
+
+msgid "Lista numerada"
+msgstr "Numbered list"
+
+msgid "Link"
+msgstr "Link"
+
+msgid "Endereço do link (https://...)"
+msgstr "Link address (https://...)"
+
+msgid "Linha divisória"
+msgstr "Horizontal rule"
+
+msgid "Imagem"
+msgstr "Image"
+
+msgid "Descreva a imagem para quem não pode vê-la:"
+msgstr "Describe the image for people who can't see it:"
+
+msgid "Enviando imagem..."
+msgstr "Uploading image..."
+
+msgid "Não foi possível enviar a imagem."
+msgstr "The image could not be uploaded."
+
+msgid "Publicado."
+msgstr "Posted."
+
+#, python-format
+msgid "Agendado para %(when)s."
+msgstr "Scheduled for %(when)s."
+
+msgid "Rascunho salvo."
+msgstr "Draft saved."
+
+msgid "Obra excluída."
+msgstr "Work deleted."
+
+msgid ""
+"Uma obra precisa de pelo menos um capítulo. Para apagar tudo, exclua a obra."
+msgstr ""
+"A work needs at least one chapter. To remove everything, delete the work."
+
+msgid "Capítulo excluído."
+msgstr "Chapter deleted."
+
+msgid "Convite enviado."
+msgstr "Invitation sent."
+
+msgid "Você saiu da autoria desta obra."
+msgstr "You were removed as a creator of this work."
+
+msgid "Você é o único autor. Para sair, exclua a obra."
+msgstr "You are the only creator. To leave, delete the work."
+
+#, python-format
+msgid "Agora você é coautor(a) de \"%(title)s\"."
+msgstr "You are now a co-creator of \"%(title)s\"."
+
+msgid "Convite recusado."
+msgstr "Invitation declined."
+
+msgid "Seu nível de mídia não permite imagens no texto."
+msgstr "Your media level does not allow images in text."
+
+msgid "Nenhum arquivo enviado."
+msgstr "No file was sent."
+
+msgid "Você atingiu o limite de espaço para imagens."
+msgstr "You have reached your image storage limit."
+
+#, python-format
+#~ msgid "Bem-vindo ao %(SITE_NAME)s"
+#~ msgstr "Welcome to %(SITE_NAME)s"
+
+#~ msgid "Um arquivo feito por abstinência de louquinha."
+#~ msgstr "An archive made out of louquinha withdrawal."
+
+#~ msgid "Busca avançada"
+#~ msgstr "Advanced search"
+
+#~ msgid "Atualizadas recentemente"
+#~ msgstr "Recently updated"
+
+#~ msgid "Ver todas as obras"
+#~ msgstr "See all works"

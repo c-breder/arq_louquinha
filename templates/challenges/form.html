@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% if collection %}{% translate "Editar coleção" %}{% else %}{% translate "Nova coleção" %}{% endif %}{% endblock %}
+{% block main %}
+  <h1>{% if collection %}{% translate "Editar coleção" %}{% else %}{% translate "Nova coleção" %}{% endif %}</h1>
+  <p class="muted">{% translate "Uma coleção reúne obras sobre um tema. Um desafio de prompts também tem uma lista de pedidos (prompts) que os autores podem responder, e pode ter prazo." %}</p>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Salvar" %}</button>
+  </form>
+{% endblock %}

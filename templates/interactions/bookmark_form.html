@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Bookmark" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Bookmark" %}: {{ work.title }}</h1>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Salvar bookmark" %}</button>
+    <a href="{% url 'works:detail' work.pk %}">{% translate "Cancelar" %}</a>
+  </form>
+  {% if bookmark %}
+    <form method="post" action="{% url 'interactions:bookmark_delete' bookmark.pk %}">
+      {% csrf_token %}<button type="submit" class="danger">{% translate "Remover bookmark" %}</button>
+    </form>
+  {% endif %}
+  <script src="{% static 'js/tag_autocomplete.js' %}" defer></script>
+{% endblock %}

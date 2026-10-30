@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Confirmar exclusão" %}{% endblock %}
+{% block main %}
+  {% if chapter %}
+    <h1>{% translate "Excluir capítulo" %}</h1>
+    <p>{% blocktranslate with number=chapter.position title=work.title %}Tem certeza que quer excluir o capítulo {{ number }} de “{{ title }}”? Isso não pode ser desfeito.{% endblocktranslate %}</p>
+  {% else %}
+    <h1>{% translate "Excluir obra" %}</h1>
+    <p>{% blocktranslate with title=work.title %}Tem certeza que quer excluir “{{ title }}” com todos os capítulos? Isso não pode ser desfeito, e também apaga a obra para os coautores.{% endblocktranslate %}</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="danger">{% translate "Sim, excluir" %}</button>
+    <a href="{% url 'works:edit' work.pk %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

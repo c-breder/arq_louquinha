@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Conta aguardando aprovação" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Conta aguardando aprovação" %}</h1>
+  <p>{% translate "Recebemos seu cadastro. Uma pessoa da equipe vai revisar sua conta e você receberá um e-mail quando ela for aprovada." %}</p>
+  <p>{% translate "Enquanto isso, você pode ajustar suas preferências e a segurança da conta." %}</p>
+  <p>
+    <a href="{% url 'accounts:preferences' %}">{% translate "Preferências" %}</a> ·
+    <a href="{% url 'account_change_password' %}">{% translate "Trocar senha" %}</a>
+  </p>
+{% endblock %}

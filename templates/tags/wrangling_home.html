@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n static %}
+{% block title %}{% translate "Wrangling" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Wrangling" %}</h1>
+  <p class="muted">{% translate "Organize as tags: escolha as canônicas, ligue sinônimos e associe personagens e relacionamentos aos fandoms. As mais usadas aparecem primeiro." %}</p>
+
+  <nav class="tabs" aria-label="{% translate 'Tipos de tag' %}">
+    {% for value, label, pending in type_tabs %}
+      <a href="?tipo={{ value }}&situacao={{ status }}"{% if value == tag_type %} aria-current="page"{% endif %}>{{ label }} <span class="badge">{{ pending }}</span></a>
+    {% endfor %}
+  </nav>
+
+  <form method="get" class="filter-form">
+    <input type="hidden" name="tipo" value="{{ tag_type }}">
+    <label for="status">{% translate "Situação" %}</label>
+    <select id="status" name="situacao">
+      {% for value, label in statuses %}<option value="{{ value }}"{% if value == status %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <label for="wq">{% translate "Nome" %}</label>
+    <input id="wq" type="search" name="q" value="{{ query }}">
+    <button type="submit">{% translate "Filtrar" %}</button>
+  </form>
+
+  <form method="post" action="{% url 'tags:bulk' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+    <table class="simple-table">
+      <thead>
+        <tr>
+          <th><span class="visually-hidden">{% translate "Selecionar" %}</span></th>
+          <th>{% translate "Tag" %}</th><th>{% translate "Situação" %}</th><th>{% translate "Obras" %}</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tag in page.object_list %}
+          <tr>
+            <td><input type="checkbox" name="tag_ids" value="{{ tag.pk }}" id="t{{ tag.pk }}"></td>
+            <td><label for="t{{ tag.pk }}">{{ tag.name }}</label></td>
+            <td>{% if tag.canonical %}{% translate "canônica" %}{% elif tag.merger %}→ {{ tag.merger.name }}{% else %}—{% endif %}</td>
+            <td>{{ tag.use_count }}</td>
+            <td><a href="{% url 'tags:wrangle' tag.pk %}">{% translate "Detalhes" %}</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="5">{% translate "Nada por aqui. 🎉" %}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "works/_pagination.html" %}
+
+    <fieldset class="bulk-box">
+      <legend>{% translate "Com as selecionadas" %}</legend>
+      <div class="actions">
+        <button type="submit" name="op" value="canonize">{% translate "Tornar canônicas" %}</button>
+      </div>
+      <div class="field">
+        <label for="bulk-merge">{% translate "Tornar sinônimos de" %}</label>
+        <input id="bulk-merge" type="text" name="target" data-tag-autocomplete="{{ tag_type }}" autocomplete="off">
+        <button type="submit" name="op" value="merge">{% translate "Aplicar" %}</button>
+      </div>
+      {% if tag_type != "fandom" %}
+        <div class="field">
+          <label for="bulk-fandom">{% translate "Ligar ao fandom" %}</label>
+          <input id="bulk-fandom" type="text" name="fandom_target" data-tag-autocomplete="fandom" autocomplete="off">
+          <button type="submit" name="op" value="fandom">{% translate "Aplicar" %}</button>
+        </div>
+      {% endif %}
+    </fieldset>
+  </form>
+  <script src="{% static 'js/tag_autocomplete.js' %}" defer></script>
+{% endblock %}

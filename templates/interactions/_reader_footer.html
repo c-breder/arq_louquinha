@@ -1,0 +1,82 @@
+{% load i18n works_extras %}
+<section class="reader-footer">
+  <div class="actions">
+    <form method="post" action="{% url 'interactions:kudos' work.pk %}" class="inline-form">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button type="submit" class="primary">💛 {% translate "Deixar kudos" %}</button>
+    </form>
+    {% if can_interact %}
+      <a class="button" href="{% url 'interactions:bookmark' work.pk %}">{% if my_bookmark %}{% translate "Editar bookmark" %}{% else %}{% translate "Bookmark" %}{% endif %}</a>
+    {% endif %}
+    {% if user.is_authenticated %}<a class="muted" href="{% url 'moderation:report' 'work' work.pk %}">{% translate "Denunciar" %}</a>{% endif %}
+  </div>
+
+  {% if kudos.total %}
+    <p class="kudos-list">
+      {% if kudos.names %}{{ kudos.names|join:", " }}{% endif %}
+      {% if kudos.guests %}{% if kudos.names %} {% translate "e" %} {% endif %}{% blocktranslate count n=kudos.guests %}{{ n }} visitante{% plural %}{{ n }} visitantes{% endblocktranslate %}{% endif %}
+      {% translate "deixaram kudos nesta obra." %}
+    </p>
+  {% endif %}
+
+  {% if comment_chapter %}
+    <section id="comentarios" class="comments">
+      <h2>{% blocktranslate count n=comments|length %}{{ n }} comentário{% plural %}{{ n }} comentários{% endblocktranslate %}</h2>
+      <ol class="comment-list">
+        {% for comment, depth in comments %}
+          <li id="comentario-{{ comment.pk }}" class="comment depth-{{ depth }}">
+            <p class="comment-head">
+              {% if comment.pseud %}<a href="{% url 'works:user_profile' comment.pseud.user.username %}">{{ comment.pseud }}</a>{% else %}<span class="muted">{% translate "conta excluída" %}</span>{% endif %}
+              <span class="muted">· {{ comment.created_at|date:"SHORT_DATETIME_FORMAT" }}{% if comment.edited_at %} · {% translate "editado" %}{% endif %}</span>
+            </p>
+            {% if comment.deleted %}
+              <p class="muted">{% translate "(comentário apagado)" %}</p>
+            {% elif comment.hidden_by_moderator and not user.is_staff %}
+              <p class="muted">{% translate "(comentário ocultado pela moderação)" %}</p>
+            {% else %}
+              <div class="comment-body">{{ comment.content|clean }}</div>
+              <div class="actions comment-actions">
+                {% if can_interact %}
+                  <details class="reply">
+                    <summary>{% translate "Responder" %}</summary>
+                    <form method="post" action="{% url 'interactions:comment' work.pk comment_chapter.position %}" class="stacked-form">
+                      {% csrf_token %}
+                      <input type="hidden" name="parent" value="{{ comment.pk }}">
+                      <label for="reply-pseud-{{ comment.pk }}" class="visually-hidden">{% translate "Responder como" %}</label>
+                      <select id="reply-pseud-{{ comment.pk }}" name="pseud">
+                        {% for pseud in comment_form.fields.pseud.queryset %}<option value="{{ pseud.pk }}"{% if pseud.is_default %} selected{% endif %}>{{ pseud.name }}</option>{% endfor %}
+                      </select>
+                      <label for="reply-{{ comment.pk }}" class="visually-hidden">{% translate "Resposta" %}</label>
+                      <textarea id="reply-{{ comment.pk }}" name="content" rows="3" required></textarea>
+                      <button type="submit">{% translate "Responder" %}</button>
+                    </form>
+                  </details>
+                {% endif %}
+                {% if comment.can_edit %}<a href="{% url 'interactions:comment_edit' comment.pk %}">{% translate "Editar" %}</a>{% endif %}
+                {% if comment.can_delete %}
+                  <form method="post" action="{% url 'interactions:comment_delete' comment.pk %}" class="inline-form">
+                    {% csrf_token %}<button type="submit" class="link-button danger-link">{% translate "Apagar" %}</button>
+                  </form>
+                {% endif %}
+                {% if user.is_authenticated and not comment.can_edit %}<a class="muted" href="{% url 'moderation:report' 'comment' comment.pk %}">{% translate "Denunciar" %}</a>{% endif %}
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+
+      {% if comment_form %}
+        <form method="post" action="{% url 'interactions:comment' work.pk comment_chapter.position %}" class="stacked-form comment-form">
+          {% csrf_token %}
+          {{ comment_form.as_div }}
+          <button type="submit" class="primary">{% translate "Comentar" %}</button>
+        </form>
+      {% elif not user.is_authenticated %}
+        <p class="muted"><a href="{% url 'account_login' %}?next={{ request.get_full_path|urlencode }}">{% translate "Entre" %}</a> {% translate "para comentar." %}</p>
+      {% endif %}
+    </section>
+  {% else %}
+    <p class="muted">{% translate "Os comentários ficam na página de cada capítulo." %}</p>
+  {% endif %}
+</section>

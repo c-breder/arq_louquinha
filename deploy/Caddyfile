@@ -1,0 +1,49 @@
+{
+	admin off
+	auto_https off
+}
+
+(common) {
+	encode zstd gzip
+	request_body {
+		max_size 20MB
+	}
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy same-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'"
+		-Server
+	}
+	# Arquivos com hash no nome: o navegador pode guardar por 1 ano
+	handle_path /static/* {
+		root * /srv/static
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+	handle_path /media/* {
+		root * /srv/media
+		header Cache-Control "public, max-age=86400"
+		file_server
+	}
+}
+
+# Porta interna, usada só pelo cloudflared: tudo chegou por HTTPS na Cloudflare
+:80 {
+	import common
+	handle {
+		reverse_proxy web:8000 {
+			header_up X-Forwarded-Proto https
+		}
+	}
+}
+
+# Acesso local (127.0.0.1:8080): descarta um CF-Connecting-IP forjado
+:8080 {
+	import common
+	request_header -Cf-Connecting-Ip
+	handle {
+		reverse_proxy web:8000
+	}
+}

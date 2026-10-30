@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{% translate "Obra importada" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Obra importada como rascunho" %}</h1>
+  <p>{% translate "Confira o que foi reconhecido. Nada está público ainda." %}</p>
+  <p class="actions">
+    <a class="button primary" href="{% url 'works:edit' work.pk %}">{% translate "Revisar dados da obra" %}</a>
+    <a class="button" href="{% url 'works:full' work.pk %}">{% translate "Ver como leitores verão" %}</a>
+    <a class="danger-link" href="{% url 'works:delete' work.pk %}">{% translate "Descartar importação" %}</a>
+  </p>
+
+  <dl class="work-meta">
+    <dt>{% translate "Título" %}</dt><dd>{{ work.title }}</dd>
+    <dt>{% translate "Classificação" %}</dt><dd>{{ work.get_rating_display }}</dd>
+    <dt>{% translate "Avisos" %}</dt><dd>{{ work.warnings|warning_labels|join:", " }}</dd>
+    <dt>{% translate "Idioma" %}</dt><dd>{{ work.get_language_display }}</dd>
+    <dt>{% translate "Tags" %}</dt>
+    <dd><ul class="tag-list">{% for tag in tags %}<li>{{ tag.name }} <span class="muted">({{ tag.get_type_display }})</span></li>{% empty %}<li class="muted">—</li>{% endfor %}</ul></dd>
+    <dt>{% translate "Palavras" %}</dt><dd>{{ work.word_count }}</dd>
+  </dl>
+  {% if work.summary %}<section class="summary"><h2>{% translate "Resumo" %}</h2>{{ work.summary|clean }}</section>{% endif %}
+
+  <h2>{% blocktranslate count n=chapters|length %}{{ n }} capítulo reconhecido{% plural %}{{ n }} capítulos reconhecidos{% endblocktranslate %}</h2>
+  <ol class="import-chapters">
+    {% for chapter in chapters %}
+      <li>
+        <strong>{{ chapter }}</strong> <span class="muted">· {% blocktranslate count n=chapter.word_count %}{{ n }} palavra{% plural %}{{ n }} palavras{% endblocktranslate %}</span>
+        <a href="{% url 'works:chapter_edit' work.pk chapter.position %}">{% translate "Editar" %}</a>
+        <p class="muted">{{ chapter.content|striptags|truncatechars:220 }}</p>
+      </li>
+    {% endfor %}
+  </ol>
+{% endblock %}

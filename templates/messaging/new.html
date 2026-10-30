@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Nova mensagem" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Nova mensagem" %}</h1>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Enviar" %}</button>
+    <a href="{% url 'messaging:inbox' %}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

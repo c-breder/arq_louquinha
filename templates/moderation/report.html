@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Denunciar" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Denunciar" %}</h1>
+  <p>{% blocktranslate with name=target %}Você está denunciando: “{{ name }}”.{% endblocktranslate %}</p>
+  <p class="muted">{% translate "A moderação recebe a denúncia sem mostrar seu nome para a outra pessoa." %}</p>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Enviar denúncia" %}</button>
+    <a href="{{ back }}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

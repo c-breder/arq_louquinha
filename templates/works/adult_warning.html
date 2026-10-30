@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Aviso de conteúdo adulto" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Aviso de conteúdo adulto" %}</h1>
+  <p>{% blocktranslate with title=work.title rating=work.get_rating_display %}“{{ title }}” tem a classificação {{ rating }} e pode conter conteúdo adulto.{% endblocktranslate %}</p>
+  <p>{% translate "Continue só se você tiver 18 anos ou mais." %}</p>
+  <p class="actions">
+    <a class="button primary" href="?adulto=1">{% translate "Tenho 18 anos ou mais, continuar" %}</a>
+    <a href="{% url 'home' %}">{% translate "Voltar" %}</a>
+  </p>
+{% endblock %}

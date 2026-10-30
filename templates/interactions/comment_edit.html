@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Editar comentário" %}{% endblock %}
+{% block main %}
+  <h1>{% translate "Editar comentário" %}</h1>
+  <form method="post" class="stacked-form">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit" class="primary">{% translate "Salvar" %}</button>
+    <a href="{% url 'works:chapter' comment.chapter.work_id comment.chapter.position %}#comentario-{{ comment.pk }}">{% translate "Cancelar" %}</a>
+  </form>
+{% endblock %}

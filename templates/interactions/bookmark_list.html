@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n works_extras %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+  <h1>{{ title }}</h1>
+  {% for bookmark in page.object_list %}
+    <div class="bookmark">
+      {% with listing=bookmark.work.listing %}{% include "works/_listing_card.html" %}{% endwith %}
+      <div class="bookmark-notes">
+        <p class="muted">
+          {% blocktranslate with name=bookmark.pseud %}Salvo por {{ name }}{% endblocktranslate %} · {{ bookmark.updated_at|date:"SHORT_DATE_FORMAT" }}
+          {% if bookmark.is_rec %}· <strong>{% translate "Recomendação" %}</strong>{% endif %}
+          {% if bookmark.is_private %}· {% translate "Privado" %}{% endif %}
+        </p>
+        {% if bookmark.notes %}{{ bookmark.notes|clean }}{% endif %}
+        {% with tags=bookmark.tags.all %}{% if tags %}<ul class="tag-list">{% for tag in tags %}<li><a href="{% url 'tags:detail' tag.pk %}">{{ tag.name }}</a></li>{% endfor %}</ul>{% endif %}{% endwith %}
+      </div>
+    </div>
+  {% empty %}
+    <p>{% translate "Nenhum bookmark ainda." %}</p>
+  {% endfor %}
+  {% include "works/_pagination.html" %}
+{% endblock %}
