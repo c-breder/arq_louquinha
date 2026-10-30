@@ -1,8 +1,8 @@
 # Arquivo Louquinha
 
-> **🌐 Versão de teste no ar:** <https://desktop-saqgca0.tail463929.ts.net>
+> **🌐 Versão de teste no ar:** <https://arquivolouquinha.netlify.app>
 >
-> Este é um endereço **provisório** (Tailscale Funnel, rodando num PC). O domínio gratuito **`arquivolouquinha.eu.org`** já foi pedido e está **aguardando aprovação** do eu.org; quando for aprovado, o site muda para ele. Por enquanto, as contas novas são **aprovadas automaticamente**.
+> Este é um endereço **provisório**: a Netlify repassa as visitas para o site, que roda num PC pelo Tailscale Funnel (<https://desktop-saqgca0.tail463929.ts.net> também funciona). O domínio gratuito **`arquivolouquinha.eu.org`** já foi pedido e está **aguardando aprovação** do eu.org; quando for aprovado, o site muda para ele. Por enquanto, as contas novas são **aprovadas automaticamente**.
 
 *Um arquivo de histórias.* Plataforma independente de publicação, organização e leitura de fanfics, inspirada no AO3. Nasceu do fandom Louquinha (Três Graças) e é aberta a outros fandoms. Feita para rodar leve num computador caseiro.
 
