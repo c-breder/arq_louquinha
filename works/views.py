@@ -37,7 +37,7 @@ def editor_context(user, work=None):
     return {
         "upload_url": reverse("works:image_upload") if can_upload else "",
         "labels": {
-            "visual": _("Visual"),
+            "visual": _("Texto formatado"),
             "html": _("HTML"),
             "bold": _("Negrito"),
             "italic": _("Itálico"),
@@ -248,6 +248,7 @@ def work_edit(request, work_id):
             "series_form": AddToSeriesForm(user=request.user),
             "series_entries": work.series_entries.select_related("series"),
             "collection_items": work.collection_items.select_related("collection"),
+            "editor": editor_context(request.user, work),
         },
     )
 

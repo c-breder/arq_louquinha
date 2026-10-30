@@ -26,9 +26,10 @@ def apply_pre_approval(user, email):
 
     # Vale uma vez só (a data fica mesmo se a conta for apagada depois)
     entry = PreApprovedEmail.objects.filter(email=(email or "").strip().lower(), used_at__isnull=True).first()
-    if entry is None or user.is_approved:
+    if entry is None:
         return False
     with transaction.atomic():
+        # Mesmo já aprovada (aprovação automática), a conta recebe o nível de mídia combinado
         if user.media_level != entry.media_level:
             user.media_level = entry.media_level
             user.save(update_fields=["media_level"])
@@ -49,6 +50,15 @@ def approve_on_email_confirmation(user, email):
         approve_user(user, None, note="janela de cadastro aberto")
         return "signup_window"
     return None
+
+
+def approve_on_signup(user):
+    """Com a aprovação automática ligada nas Configurações do site, a conta já nasce aprovada."""
+    from core.models import SiteSettings
+
+    if SiteSettings.current().auto_approve_signups:
+        return approve_user(user, None, note="aprovação automática")
+    return False
 
 
 def reject_user(user, by, note=""):

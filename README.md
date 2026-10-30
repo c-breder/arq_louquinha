@@ -111,6 +111,12 @@ Na imagem de produção, a compilação acontece sozinha no build.
   - Cada liberação vale **uma vez**.
   - Quem se cadastrar com outro e-mail continua aguardando a sua aprovação.
 - **Configurações do site** (admin → **Core → Configurações do site**), que mudam sem reiniciar nada:
+  - **"Aprovar todas as novas contas automaticamente":** a caixa de marcar mais forte.
+    - Marcada: toda conta nova já nasce aprovada (nível Básico) e **entra sem confirmar o e-mail**. Serve enquanto o site não tem provedor de e-mail.
+    - No histórico de moderação, essas aprovações aparecem com a nota "aprovação automática".
+    - Um e-mail pré-aprovado ainda recebe o nível de mídia escolhido quando a pessoa confirmar o e-mail.
+    - **Risco:** qualquer pessoa (ou robô) que achar o link cria conta e publica na hora, inclusive com o e-mail de outra pessoa. Acompanhe os avisos e as denúncias.
+    - **Para desligar:** desmarque a caixa e clique em **Salvar**. Quem se cadastrar depois volta a aguardar a sua aprovação e a precisar confirmar o e-mail. As contas já aprovadas continuam aprovadas; para tirar alguém, use **Recusar contas selecionadas** em **Usuários**.
   - **"Aprovar novas contas automaticamente até":** é a **janela de cadastro aberto**.
     - Enquanto a data não passar, quem criar conta e **confirmar o e-mail** entra aprovado, no nível de mídia Básico, e pode publicar.
     - Ela fecha sozinha na data escolhida; para fechar antes, apague a data.
@@ -118,14 +124,14 @@ Na imagem de produção, a compilação acontece sozinha no build.
     - No histórico de moderação, essas aprovações aparecem com a nota "janela de cadastro aberto".
     - Um e-mail pré-aprovado tem prioridade sobre a janela, então vale o nível de mídia escolhido para ele.
   - **"Avisar destes e-mails a cada conta criada":** um e-mail por linha. A cada cadastro, quem estiver na lista recebe usuário, e-mail, data, situação e o link para a conta no admin. Os e-mails ficam só no banco, nunca no código.
-  - As duas funções dependem de o site **enviar e-mails de verdade**. Sem provedor de e-mail configurado (`EMAIL_*` no `.env.prod`), os e-mails só aparecem no log, e a confirmação precisa ser feita pelo comando `verify_email`, que também respeita a janela e a pré-aprovação.
+  - A janela e os avisos dependem de o site **enviar e-mails de verdade**. Sem provedor de e-mail configurado (`EMAIL_*` no `.env.prod`), os e-mails só aparecem no log, e a confirmação precisa ser feita pelo comando `verify_email`, que também respeita a janela e a pré-aprovação.
 - `SIGNUP_OPEN=0` no `.env` fecha o cadastro.
 - Segurança: senhas com Argon2, verificação em duas etapas opcional (TOTP) e bloqueio temporário após logins falhos (5 tentativas a cada 5 minutos por conta). O login com Google se ativa ao preencher `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET`.
 
 ## Obras
 
 - **Publicar:** menu **Nova obra**. O formulário já inclui o primeiro capítulo. Cada obra ou capítulo pode ser salvo como **rascunho**, **publicado** ou **agendado**. O worker confere os agendamentos a cada minuto.
-- **Editor:** tem o modo **Visual** (botões de formatação) e o modo **HTML**, com o botão no canto da barra. Em qualquer modo, o servidor passa o texto por uma lista branca de tags (`works/sanitize.py`): scripts, `onclick`, `javascript:` e estilos somem. Texto puro colado vira parágrafos.
+- **Editor:** duas abas no topo de cada caixa, como no AO3: **Texto formatado** (botões de formatação) e **HTML**. Vale para o texto do capítulo e também para resumo, notas e notas finais (nesses, a barra é mais enxuta). O navegador lembra a última aba escolhida. Em qualquer modo, o servidor passa o texto por uma lista branca de tags (`works/sanitize.py`): scripts, `onclick`, `javascript:` e estilos somem. Texto puro colado vira parágrafos.
 - **Imagens no texto:** só autores no nível **Imagens**. Cada imagem é convertida para WebP, reduzida a até 1.600 px de largura e perde os metadados (GPS etc.).
   - Limites: 5 MB por arquivo e 100 MB por autor, ajustáveis no `.env`.
   - Imagens de outros sites são bloqueadas, porque permitiriam rastrear os leitores.

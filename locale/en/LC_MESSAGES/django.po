@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: arq_louquinha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 11:16-0300\n"
+"POT-Creation-Date: 2026-10-30 11:32-0300\n"
 "PO-Revision-Date: 2026-10-29 23:45-0300\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -349,6 +349,16 @@ msgstr "Work removed from the collection."
 
 msgid "Arquivo de imagem inválido."
 msgstr "Invalid image file."
+
+msgid "aprovar todas as novas contas automaticamente"
+msgstr "automatically approve every new account"
+
+msgid ""
+"Ligado: toda conta nova já entra aprovada e pode entrar sem confirmar o "
+"e-mail. Desmarque para voltar à aprovação manual."
+msgstr ""
+"On: every new account is approved right away and can log in without "
+"confirming the email. Uncheck to go back to manual approval."
 
 msgid "aprovar novas contas automaticamente até"
 msgstr "automatically approve new accounts until"
@@ -2177,8 +2187,8 @@ msgstr ""
 "%(inviter)s invited you to be a co-creator of \"%(title)s\".\n"
 "To accept or decline, go to: %(path)s"
 
-msgid "Visual"
-msgstr "Visual"
+msgid "Texto formatado"
+msgstr "Rich text"
 
 msgid "HTML"
 msgstr "HTML"
@@ -2273,6 +2283,9 @@ msgstr "No file was sent."
 
 msgid "Você atingiu o limite de espaço para imagens."
 msgstr "You have reached your image storage limit."
+
+#~ msgid "Visual"
+#~ msgstr "Visual"
 
 #, python-format
 #~ msgid "Bem-vindo ao %(SITE_NAME)s"

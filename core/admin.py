@@ -7,7 +7,7 @@ from .models import SiteSettings
 
 @admin.register(SiteSettings)
 class SiteSettingsAdmin(admin.ModelAdmin):
-    fields = ["open_signup_until", "notify_emails", "updated_at"]
+    fields = ["auto_approve_signups", "open_signup_until", "notify_emails", "updated_at"]
     readonly_fields = ["updated_at"]
 
     # Registro único: a lista leva direto para a tela de edição

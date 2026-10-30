@@ -98,3 +98,61 @@ def test_no_notice_without_recipients(client, django_capture_on_commit_callbacks
 def test_admin_settings_page(admin_client):
     response = admin_client.get(reverse("admin:core_sitesettings_changelist"), follow=True)
     assert response.status_code == 200 and "notify_emails" in response.content.decode()
+
+
+# --- Aprovação automática ---
+
+
+def login(client):
+    return client.post(reverse("account_login"), {"login": "nova", "password": PASSWORD})
+
+
+def auto_approve(on=True):
+    settings = SiteSettings.current()
+    settings.auto_approve_signups = on
+    settings.save()
+
+
+def test_auto_approve_lets_new_account_in_without_email_confirmation(client):
+    auto_approve()
+    user = signup(client)
+    assert user.is_approved and user.media_level == User.MediaLevel.BASIC
+    assert not EmailAddress.objects.get(user=user).verified
+    assert ModerationAction.objects.filter(
+        action="approve_account", object_id=user.pk, note="aprovação automática"
+    ).exists()
+    # Já entra logada e consegue publicar
+    assert client.get(reverse("works:create")).status_code == 200
+    client.logout()
+    assert login(client).url == "/"
+
+
+def test_turning_auto_approve_off_restores_manual_approval(client):
+    auto_approve()
+    auto_approve(on=False)
+    user = signup(client)
+    assert not user.is_approved
+    # Sem a chave, o e-mail volta a ser obrigatório para entrar
+    client.logout()
+    assert login(client).url == reverse("account_email_verification_sent")
+
+
+def test_auto_approved_account_still_gets_pre_approved_media_level(client, admin_user):
+    auto_approve()
+    PreApprovedEmail.objects.create(email="amiga@example.com", media_level=User.MediaLevel.IMAGES, created_by=admin_user)
+    user = signup(client, "amiga@example.com", "amiga")
+    assert user.is_approved and user.media_level == User.MediaLevel.BASIC
+    confirm(client, user)
+    assert user.media_level == User.MediaLevel.IMAGES
+    assert PreApprovedEmail.objects.get().used_by == user
+
+
+def test_notice_says_account_was_auto_approved(client, django_capture_on_commit_callbacks):
+    auto_approve()
+    settings = SiteSettings.current()
+    settings.notify_emails = "dona@example.com"
+    settings.save()
+    with django_capture_on_commit_callbacks(execute=True):
+        signup(client)
+    notice = next(message for message in mail.outbox if "Nova conta" in message.subject)
+    assert "aprovada automaticamente" in notice.body

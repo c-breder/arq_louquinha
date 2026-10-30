@@ -82,9 +82,9 @@ class WorkForm(forms.ModelForm):
             "is_complete", "expected_chapters", "restricted",
         ]  # fmt: skip
         widgets = {
-            "summary": forms.Textarea(attrs={"rows": 4}),
-            "notes": forms.Textarea(attrs={"rows": 4}),
-            "end_notes": forms.Textarea(attrs={"rows": 4}),
+            "summary": forms.Textarea(attrs={"rows": 4, "data-editor": "small"}),
+            "notes": forms.Textarea(attrs={"rows": 4, "data-editor": "small"}),
+            "end_notes": forms.Textarea(attrs={"rows": 4, "data-editor": "small"}),
         }
 
     def __init__(self, *args, user, **kwargs):
@@ -137,9 +137,9 @@ class ChapterForm(forms.ModelForm):
         model = Chapter
         fields = ["title", "summary", "notes", "content", "end_notes"]
         widgets = {
-            "summary": forms.Textarea(attrs={"rows": 3}),
-            "notes": forms.Textarea(attrs={"rows": 3}),
-            "end_notes": forms.Textarea(attrs={"rows": 3}),
+            "summary": forms.Textarea(attrs={"rows": 3, "data-editor": "small"}),
+            "notes": forms.Textarea(attrs={"rows": 3, "data-editor": "small"}),
+            "end_notes": forms.Textarea(attrs={"rows": 3, "data-editor": "small"}),
             "content": forms.Textarea(attrs={"rows": 20, "data-editor": "1"}),
         }
 

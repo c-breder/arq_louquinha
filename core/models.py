@@ -8,6 +8,12 @@ from django.utils.translation import gettext_lazy as _
 class SiteSettings(models.Model):
     """Configurações que a equipe muda pelo admin, sem mexer no .env nem reiniciar o site (registro único)."""
 
+    auto_approve_signups = models.BooleanField(
+        _("aprovar todas as novas contas automaticamente"),
+        default=False,
+        help_text=_("Ligado: toda conta nova já entra aprovada e pode entrar sem confirmar o e-mail. "
+                    "Desmarque para voltar à aprovação manual."),
+    )
     open_signup_until = models.DateTimeField(
         _("aprovar novas contas automaticamente até"),
         null=True,

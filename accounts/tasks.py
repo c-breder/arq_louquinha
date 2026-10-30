@@ -18,7 +18,9 @@ def notify_new_signup(user_id, admin_url=""):
     user = get_user_model().objects.filter(pk=user_id).first()
     if not recipients or user is None:
         return
-    if PreApprovedEmail.objects.filter(email=user.email.lower(), used_at__isnull=True).exists():
+    if user.is_approved:
+        situation = "aprovada automaticamente (Configurações do site)"
+    elif PreApprovedEmail.objects.filter(email=user.email.lower(), used_at__isnull=True).exists():
         situation = "e-mail pré-aprovado: será aprovada ao confirmar o e-mail"
     elif site_settings.signup_window_open:
         situation = "janela de cadastro aberta: será aprovada ao confirmar o e-mail"

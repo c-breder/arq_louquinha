@@ -1,19 +1,63 @@
-// Editor de texto: modo visual (contenteditable) e modo HTML (textarea).
-// O servidor filtra o HTML de qualquer jeito; aqui é só conforto para quem escreve.
+// Editor de texto com duas abas, como no AO3: "Texto formatado" (visual) e "HTML".
+// Vale para toda caixa com data-editor (capítulo, resumo e notas). O servidor filtra o HTML de qualquer jeito.
 (() => {
   const labelsElement = document.getElementById("editor-labels");
-  const labels = labelsElement ? JSON.parse(labelsElement.textContent) : {};
+  const labels = labelsElement ? JSON.parse(labelsElement.textContent) || {} : {};
+  const STORAGE_KEY = "arquivo-editor-mode"; // lembra a aba preferida neste navegador
+  let counter = 0;
 
   const exec = (command, value = null) => document.execCommand(command, false, value);
 
   const escapeAttr = (text) =>
     text.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 
-  function setupEditor(host) {
-    const textarea = host.querySelector("textarea");
-    if (!textarea) return;
+  function savedMode() {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === "html" ? "html" : "visual";
+    } catch {
+      return "visual";
+    }
+  }
+
+  function saveMode(mode) {
+    try {
+      localStorage.setItem(STORAGE_KEY, mode);
+    } catch {
+      /* navegador sem armazenamento: só não lembra */
+    }
+  }
+
+  function setupEditor(textarea) {
+    const id = ++counter;
+    // A caixa do capítulo já vem dentro de .editor-host; resumo e notas ganham um agora
+    let host = textarea.closest(".editor-host");
+    if (!host) {
+      host = document.createElement("div");
+      host.className = "editor-host";
+      textarea.before(host);
+      host.append(textarea);
+    }
+    const small = textarea.dataset.editor === "small";
+    if (small) host.classList.add("editor-small");
     const form = textarea.form;
     const uploadUrl = host.dataset.uploadUrl;
+
+    // Abas
+    const tabs = document.createElement("div");
+    tabs.className = "editor-tabs";
+    tabs.setAttribute("role", "tablist");
+    const makeTab = (mode, text) => {
+      const tab = document.createElement("button");
+      tab.type = "button";
+      tab.id = `editor-${id}-tab-${mode}`;
+      tab.textContent = text;
+      tab.setAttribute("role", "tab");
+      tab.addEventListener("click", () => setMode(mode, true));
+      tabs.append(tab);
+      return tab;
+    };
+    const visualTab = makeTab("visual", labels.visual || "Texto formatado");
+    const htmlTab = makeTab("html", labels.html || "HTML");
 
     const toolbar = document.createElement("div");
     toolbar.className = "editor-toolbar";
@@ -32,25 +76,22 @@
     status.className = "editor-status";
     status.setAttribute("role", "status");
 
-    let htmlMode = false;
+    let mode = "visual";
     let savedRange = null;
-    const formatButtons = [];
 
-    function addButton(title, text, action, isFormat = true) {
+    function addButton(title, text, action) {
       const button = document.createElement("button");
       button.type = "button";
       button.textContent = text;
-      button.title = title;
-      button.setAttribute("aria-label", title);
+      button.title = title || text;
+      button.setAttribute("aria-label", title || text);
       // Não deixa o clique tirar a seleção do texto
       button.addEventListener("mousedown", (event) => event.preventDefault());
       button.addEventListener("click", () => {
-        if (isFormat) area.focus();
+        area.focus();
         action();
       });
       toolbar.append(button);
-      if (isFormat) formatButtons.push(button);
-      return button;
     }
 
     function saveSelection() {
@@ -108,26 +149,30 @@
       input.click();
     }
 
-    function toggleMode() {
-      if (htmlMode) {
+    function setMode(next, remember) {
+      if (next === mode && remember) return;
+      if (next === "html") {
+        if (mode === "visual") textarea.value = area.innerHTML;
+      } else if (mode === "html") {
         area.innerHTML = textarea.value;
-        toggle.textContent = labels.html;
-      } else {
-        textarea.value = area.innerHTML;
-        toggle.textContent = labels.visual;
       }
-      htmlMode = !htmlMode;
-      area.hidden = htmlMode;
-      textarea.hidden = !htmlMode;
-      toggle.setAttribute("aria-pressed", String(htmlMode));
-      formatButtons.forEach((button) => (button.disabled = htmlMode));
+      mode = next;
+      const html = mode === "html";
+      area.hidden = html;
+      toolbar.hidden = html;
+      textarea.hidden = !html;
+      visualTab.setAttribute("aria-selected", String(!html));
+      htmlTab.setAttribute("aria-selected", String(html));
+      visualTab.classList.toggle("is-active", !html);
+      htmlTab.classList.toggle("is-active", html);
+      if (remember) saveMode(mode);
     }
 
     addButton(labels.bold, "B", () => exec("bold"));
     addButton(labels.italic, "I", () => exec("italic"));
     addButton(labels.underline, "U", () => exec("underline"));
     addButton(labels.strike, "S", () => exec("strikeThrough"));
-    addButton(labels.heading, "H", () => exec("formatBlock", "<h3>"));
+    if (!small) addButton(labels.heading, "H", () => exec("formatBlock", "<h3>"));
     addButton(labels.paragraph, "¶", () => exec("formatBlock", "<p>"));
     addButton(labels.quote, "❝", () => exec("formatBlock", "<blockquote>"));
     addButton(labels.bullets, "•", () => exec("insertUnorderedList"));
@@ -136,23 +181,20 @@
       const url = window.prompt(labels.link_prompt, "https://");
       if (url && /^(https?:|mailto:)/i.test(url)) exec("createLink", url);
     });
-    addButton(labels.rule, "—", () => exec("insertHorizontalRule"));
+    if (!small) addButton(labels.rule, "—", () => exec("insertHorizontalRule"));
     if (uploadUrl) addButton(labels.image, "🖼", pickImage);
-    const toggle = addButton(labels.html, labels.html, toggleMode, false);
-    toggle.classList.add("editor-toggle");
-    toggle.setAttribute("aria-pressed", "false");
     toolbar.append(status);
 
-    host.prepend(toolbar);
+    host.prepend(tabs, toolbar);
     textarea.before(area);
-    textarea.hidden = true;
+    setMode(savedMode(), false);
 
     form.addEventListener("submit", () => {
-      if (!htmlMode) textarea.value = area.innerHTML;
+      if (mode === "visual") textarea.value = area.innerHTML;
     });
   }
 
   // Enter cria <p> em vez de <div>
   document.execCommand("defaultParagraphSeparator", false, "p");
-  document.querySelectorAll(".editor-host").forEach(setupEditor);
+  document.querySelectorAll("textarea[data-editor]").forEach(setupEditor);
 })();

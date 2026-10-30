@@ -29,8 +29,11 @@ def approve_after_confirmation(sender, request, email_address, **kwargs):
 
 
 @receiver(user_signed_up)
-def notify_staff_of_signup(sender, request, user, **kwargs):
+def approve_and_notify_on_signup(sender, request, user, **kwargs):
+    from .services import approve_on_signup
     from .tasks import notify_new_signup
+
+    approve_on_signup(user)
 
     admin_url = request.build_absolute_uri(reverse("admin:accounts_user_change", args=[user.pk])) if request else ""
     transaction.on_commit(lambda: notify_new_signup.delay(user.pk, admin_url))
