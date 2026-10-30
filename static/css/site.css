@@ -140,12 +140,6 @@ a:hover { color: var(--accent-strong); }
 .side-nav a:hover { background: var(--surface); color: var(--highlight); }
 .side-nav a.is-active { background: var(--surface-3); color: var(--highlight); }
 
-.zenilda { margin: auto 0 0; padding: 1.5rem .5rem .5rem; text-align: center; color: var(--title); }
-.zenilda .botanical { color: var(--accent); opacity: .85; display: block; margin: 0 auto .9rem; }
-.zenilda blockquote { margin: 0; font-family: var(--serif); font-style: italic; font-size: .98rem; line-height: 1.55; color: var(--title); }
-.zenilda figcaption { margin: .65rem 0 .5rem; font-size: .82rem; color: var(--muted); }
-.zenilda cite { font-style: normal; }
-.zenilda .icon { color: var(--accent); }
 
 .sidebar-backdrop { display: none; }
 

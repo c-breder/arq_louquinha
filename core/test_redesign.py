@@ -33,8 +33,7 @@ def test_brand_layout_and_quote(client, settings):
     assert settings.SITE_NAME == "Arquivo Louquinha"
     assert content.count("Arquivo Louquinha") >= 2  # cabeçalho e rodapé
     assert "Um arquivo de histórias." in content
-    assert "Nenhum gesto humano pode abolir o acaso" in content and "Zenilda" in content
-    assert "Algumas histórias não cabem em um só lugar" not in content
+    assert "Zenilda" not in content and "botanical" not in content  # removidas a pedido
     assert "Feito por alguém que também ama histórias." in content
     for name in ("about", "terms", "contact"):
         assert reverse(name) in content
