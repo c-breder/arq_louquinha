@@ -1,8 +1,12 @@
 # Arquivo Louquinha
 
+> **🌐 Versão de teste no ar:** <https://desktop-saqgca0.tail463929.ts.net>
+>
+> Este é um endereço **provisório** (Tailscale Funnel, rodando num PC). O domínio gratuito **`arquivolouquinha.eu.org`** já foi pedido e está **aguardando aprovação** do eu.org; quando for aprovado, o site muda para ele. Os cadastros passam por **aprovação manual**.
+
 *Um arquivo de histórias.* Plataforma independente de publicação, organização e leitura de fanfics, inspirada no AO3. Nasceu do fandom Louquinha (Três Graças) e é aberta a outros fandoms. Feita para rodar leve num computador caseiro.
 
-- **Visual:** tema azul-marinho, com cabeçalho, barra lateral (com a citação da Zenilda) e rodapé. Os títulos usam a fonte Lora e o texto usa Inter, ambas hospedadas no próprio site (`static/fonts/`). Os ícones são SVG embutidos (`core/templatetags/ui.py`). Não há capas: os cards são só texto.
+- **Visual:** tema azul-marinho, com cabeçalho, barra lateral e rodapé. Os títulos usam a fonte Lora e o texto usa Inter, ambas hospedadas no próprio site (`static/fonts/`). Os ícones são SVG embutidos (`core/templatetags/ui.py`). Não há capas: os cards são só texto.
 - **Páginas Sobre, Termos de Uso e Contato:** são editadas pelo admin, em **Páginas planas** (Flat pages).
 
 - **Stack:** Python 3.12, Django 5.2 com templates e HTMX (sem SPA), PostgreSQL (busca full-text), Redis + Celery e Docker Compose.
