@@ -2,7 +2,7 @@
 
 > **🌐 Versão de teste no ar:** <https://desktop-saqgca0.tail463929.ts.net>
 >
-> Este é um endereço **provisório** (Tailscale Funnel, rodando num PC). O domínio gratuito **`arquivolouquinha.eu.org`** já foi pedido e está **aguardando aprovação** do eu.org; quando for aprovado, o site muda para ele. Os cadastros passam por **aprovação manual**.
+> Este é um endereço **provisório** (Tailscale Funnel, rodando num PC). O domínio gratuito **`arquivolouquinha.eu.org`** já foi pedido e está **aguardando aprovação** do eu.org; quando for aprovado, o site muda para ele. Por enquanto, as contas novas são **aprovadas automaticamente**.
 
 *Um arquivo de histórias.* Plataforma independente de publicação, organização e leitura de fanfics, inspirada no AO3. Nasceu do fandom Louquinha (Três Graças) e é aberta a outros fandoms. Feita para rodar leve num computador caseiro.
 
@@ -353,6 +353,26 @@ O `seed --clear-only` apaga **só** o que o seed criou: contas `@seed.invalid`, 
 # ou, sem backup:
 ./scripts/prod.sh build && ./scripts/prod.sh up -d
 ```
+
+### 10. Endereço mais bonito, provisório (Netlify)
+
+Enquanto o domínio não sai, a Netlify pode servir de "porta de entrada" grátis, com um nome como `arquivolouquinha.netlify.app`:
+```
+visitante → arquivolouquinha.netlify.app (Netlify) → ...ts.net (Funnel) → este PC
+```
+A pasta `deploy/netlify/` tem o arquivo `_redirects`, que repassa todas as visitas para o endereço `.ts.net`. O Funnel precisa continuar ligado.
+
+1. Crie uma conta grátis em <https://app.netlify.com/signup>.
+2. Em **Sites** (ou **Projects**), escolha **Add new site → Deploy manually** e arraste a pasta `deploy/netlify` inteira.
+3. Em **Site configuration → Change site name**, troque o nome aleatório por `arquivolouquinha` (ou outro livre).
+4. No `.env.prod`, acrescente o endereço novo nas duas linhas, separado por vírgula:
+   ```ini
+   DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,desktop-saqgca0.tail463929.ts.net,arquivolouquinha.netlify.app
+   DJANGO_CSRF_TRUSTED_ORIGINS=https://desktop-saqgca0.tail463929.ts.net,https://arquivolouquinha.netlify.app
+   ```
+5. Aplique: `./scripts/prod.sh up -d --force-recreate web worker`.
+
+Limites: a Netlify também vê o tráfego (como a Cloudflare veria depois); o plano grátis tem cota mensal de tráfego, de sobra para testes; pedidos que demoram mais de ~25 segundos são cortados, então importar um PDF muito grande pode falhar (use o `.ts.net` nesse caso); links em e-mails continuam com o `.ts.net`. Para desligar, apague o site na Netlify.
 
 ## Domínio próprio (próximo passo)
 
