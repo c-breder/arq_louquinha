@@ -20,6 +20,25 @@ def approve_user(user, by):
     return True
 
 
+def apply_pre_approval(user, email):
+    """Se o e-mail confirmado estiver na lista de pré-aprovados, aprova a conta. Devolve True se aprovou."""
+    from .models import PreApprovedEmail
+
+    # Vale uma vez só (a data fica mesmo se a conta for apagada depois)
+    entry = PreApprovedEmail.objects.filter(email=(email or "").strip().lower(), used_at__isnull=True).first()
+    if entry is None or user.is_approved:
+        return False
+    with transaction.atomic():
+        if user.media_level != entry.media_level:
+            user.media_level = entry.media_level
+            user.save(update_fields=["media_level"])
+        approve_user(user, entry.created_by)
+        entry.used_by = user
+        entry.used_at = timezone.now()
+        entry.save(update_fields=["used_by", "used_at"])
+    return True
+
+
 def reject_user(user, by, note=""):
     user.is_active = False
     user.save(update_fields=["is_active"])

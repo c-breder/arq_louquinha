@@ -7,7 +7,7 @@ from django.utils.translation import ngettext
 from tags.wrangling import WRANGLERS_GROUP
 
 from . import services
-from .models import Pseud, User
+from .models import PreApprovedEmail, Pseud, User
 
 
 class PseudInline(admin.TabularInline):
@@ -82,6 +82,20 @@ class UserAdmin(BaseUserAdmin):
     @admin.action(description=_("Nível de mídia: Imagens"))
     def set_media_images(self, request, queryset):
         self._set_media_level(request, queryset, User.MediaLevel.IMAGES)
+
+
+@admin.register(PreApprovedEmail)
+class PreApprovedEmailAdmin(admin.ModelAdmin):
+    list_display = ["email", "media_level", "note", "used_by", "used_at", "created_by", "created_at"]
+    list_filter = ["media_level", ("used_at", admin.EmptyFieldListFilter)]
+    search_fields = ["email", "note"]
+    fields = ["email", "media_level", "note", "created_by", "created_at", "used_by", "used_at"]
+    readonly_fields = ["created_by", "created_at", "used_by", "used_at"]
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.created_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Pseud)

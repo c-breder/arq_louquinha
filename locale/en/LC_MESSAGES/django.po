@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: arq_louquinha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-30 03:31-0300\n"
+"POT-Creation-Date: 2026-10-30 11:09-0300\n"
 "PO-Revision-Date: 2026-10-29 23:45-0300\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
@@ -149,6 +149,27 @@ msgstr "user"
 
 msgid "usuários"
 msgstr "users"
+
+msgid "anotação"
+msgstr "note"
+
+msgid "liberado por"
+msgstr "approved by"
+
+msgid "liberado em"
+msgstr "approved at"
+
+msgid "usado pela conta"
+msgstr "used by account"
+
+msgid "usado em"
+msgstr "used at"
+
+msgid "e-mail pré-aprovado"
+msgstr "pre-approved email"
+
+msgid "e-mails pré-aprovados"
+msgstr "pre-approved emails"
 
 msgid "nome"
 msgstr "name"

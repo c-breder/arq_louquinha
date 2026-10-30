@@ -56,6 +56,42 @@ class User(AbstractUser):
         return self.media_level >= self.MediaLevel.IMAGES
 
 
+class PreApprovedEmail(models.Model):
+    """E-mail liberado pela equipe antes do cadastro: a conta é aprovada sozinha quando o e-mail é confirmado."""
+
+    email = models.EmailField(_("e-mail"), unique=True)
+    media_level = models.PositiveSmallIntegerField(
+        _("nível de mídia"), choices=User.MediaLevel.choices, default=User.MediaLevel.BASIC
+    )
+    note = models.CharField(_("anotação"), max_length=200, blank=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_("liberado por"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+    )
+    created_at = models.DateTimeField(_("liberado em"), auto_now_add=True)
+    used_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_("usado pela conta"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+    )
+    used_at = models.DateTimeField(_("usado em"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("e-mail pré-aprovado")
+        verbose_name_plural = _("e-mails pré-aprovados")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return self.email
+
+    def clean(self):
+        # Antes da checagem de duplicado do admin, para "Ana@x.com" e "ana@x.com" contarem como iguais
+        self.email = self.email.strip().lower()
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.strip().lower()  # comparação sem diferenciar maiúsculas
+        super().save(*args, **kwargs)
+
+
 class Pseud(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

@@ -105,6 +105,11 @@ Na imagem de produção, a compilação acontece sozinha no build.
 - **Para aprovar:** no admin, abra **Usuários**, filtre por "aprovada: Não", selecione as contas e use a ação **Aprovar contas selecionadas**. A pessoa recebe um e-mail no idioma que escolheu.
 - **Níveis de mídia:** todo autor novo começa no **Básico** (só avatar). A ação do admin muda o nível para **Imagens** (avatar e imagens dentro do texto). As obras não têm capa.
 - Toda aprovação, recusa e mudança de nível fica registrada em **Moderação → Histórico de moderação**, que é só para leitura.
+- **E-mails pré-aprovados:** no admin, em **Contas → E-mails pré-aprovados**, cadastre o e-mail de uma autora **antes** de ela criar a conta e, se quiser, já escolha o nível de mídia.
+  - Quando ela se cadastrar com esse e-mail e **confirmar o e-mail**, a conta é aprovada sozinha, com o nível escolhido, e a aprovação vai para o histórico de moderação em seu nome.
+  - A aprovação só acontece **depois da confirmação**, para ninguém usar o e-mail de outra pessoa.
+  - Cada liberação vale **uma vez**.
+  - Quem se cadastrar com outro e-mail continua aguardando a sua aprovação.
 - `SIGNUP_OPEN=0` no `.env` fecha o cadastro.
 - Segurança: senhas com Argon2, verificação em duas etapas opcional (TOTP) e bloqueio temporário após logins falhos (5 tentativas a cada 5 minutos por conta). O login com Google se ativa ao preencher `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET`.
 
@@ -301,6 +306,8 @@ tailscale funnel --bg http://127.0.0.1:8080
 - **Para ver o estado:** `tailscale funnel status`.
 
 ### 7. Deixar uma amiga testar como autora
+
+**Atalho:** cadastre antes o e-mail dela no admin, em **Contas → E-mails pré-aprovados** (veja "Contas e aprovação"). Assim, quando o e-mail dela for confirmado, a conta já entra aprovada. Enquanto o site não envia e-mails, o comando do passo 2 abaixo faz essa confirmação e aplica a pré-aprovação.
 
 1. Ela cria a conta pelo endereço `.ts.net`, em "Criar conta".
 2. Você confirma o e-mail e aprova a conta de uma vez:
